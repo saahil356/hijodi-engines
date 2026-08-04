@@ -59,8 +59,10 @@ def astro_match(inp: AstroMatchIn):
                                         "bride": inp.bride.birth_time_confidence}
         if inp.include_charts:
             rep["charts"] = {
-                "groom_north": render_north_svg(g), "groom_south": render_south_svg(g),
-                "bride_north": render_north_svg(b), "bride_south": render_south_svg(b),
+                "groom_north": render_north_svg(g.north_indian_chart(), title=g.name),
+                "groom_south": render_south_svg(g.south_indian_chart(), title=g.name),
+                "bride_north": render_north_svg(b.north_indian_chart(), title=b.name),
+                "bride_south": render_south_svg(b.south_indian_chart(), title=b.name),
             }
         return {"engine": "astrojodi", "engine_version": ENGINE_VERSIONS["astrojodi"],
                 "input_hash": hashlib.sha256(inp.model_dump_json().encode()).hexdigest()[:16],
