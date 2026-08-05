@@ -7,7 +7,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from typing import Optional
 
-from astrology_engine import BirthChart, match_report, current_dasha, render_north_svg, render_south_svg
+from astrology_engine import BirthChart, match_report, current_dasha, render_north_svg, render_south_svg, SIGNS, vimshottari_dasha
 from numerology_engine import Profile, CompatibilityEngine
 
 ENGINE_VERSIONS = {"astrojodi": "1.0.0", "numerojodi": "1.0.0", "mindmatch": "1.0.0"}
@@ -147,3 +147,65 @@ def mindmatch_score(inp: MMScoreIn):
         raise
     except Exception as e:
         raise HTTPException(422, f"mindmatch computation failed: {e}")
+
+# ---------------- Solo lenses (Aaina rollout) ----------------
+SIGN_TRAITS = {
+  "Aries":"initiative and fire","Taurus":"steadiness and loyalty","Gemini":"curiosity and words",
+  "Cancer":"care and memory","Leo":"warmth and pride","Virgo":"precision and service",
+  "Libra":"balance and partnership","Scorpio":"depth and intensity","Sagittarius":"faith and freedom",
+  "Capricorn":"duty and patience","Aquarius":"ideals and independence","Pisces":"empathy and imagination"}
+NUM_MEANING = {1:"leadership and self-drive",2:"partnership and sensitivity",3:"expression and joy",
+  4:"discipline and building",5:"freedom and change",6:"care, home and responsibility",
+  7:"reflection and depth",8:"ambition and material mastery",9:"compassion and completion",
+  11:"intuition and inspiration",22:"master builder energy"}
+
+class SoloPerson(BaseModel):
+    name: str
+    year: int; month: int; day: int
+    hour: int = 12; minute: int = 0
+    tz_offset: float = 5.5
+    lat: float = 28.61; lon: float = 77.21
+    gender: str = "unspecified"
+
+@app.post("/v1/astro/solo")
+def astro_solo(p: SoloPerson):
+    try:
+        ch = BirthChart(name=p.name, year=p.year, month=p.month, day=p.day,
+                        hour=p.hour, minute=p.minute, tz_offset=p.tz_offset,
+                        lat=p.lat, lon=p.lon, gender=p.gender)
+        moon = ch.planets["Moon"]; venus = ch.planets["Venus"]; mars = ch.planets["Mars"]
+        seventh_sign = SIGNS[(ch.asc_sign + 6) % 12]
+        dasha = vimshottari_dasha(ch, n_periods=3)
+        return {"engine": "astrojodi", "engine_version": ENGINE_VERSIONS["astrojodi"], "output": {
+            "lagna": SIGNS[ch.asc_sign], "lagna_traits": SIGN_TRAITS[SIGNS[ch.asc_sign]],
+            "moon_sign": moon["sign"], "moon_nakshatra": moon["nakshatra"],
+            "moon_traits": SIGN_TRAITS[moon["sign"]],
+            "venus": {"sign": venus["sign"], "house": venus["house"]},
+            "mars": {"sign": mars["sign"], "house": mars["house"]},
+            "seventh_house_sign": seventh_sign,
+            "seventh_traits": SIGN_TRAITS[seventh_sign],
+            "current_dasha": dasha[0], "next_dasha": dasha[1] if len(dasha) > 1 else None,
+        }}
+    except Exception as e:
+        raise HTTPException(422, f"astro solo failed: {e}")
+
+class SoloNumIn(BaseModel):
+    name: str
+    year: int; month: int; day: int
+    system: str = "chaldean"
+
+@app.post("/v1/numero/solo")
+def numero_solo(p: SoloNumIn):
+    try:
+        pr = Profile(name=p.name, day=p.day, month=p.month, year=p.year, system=p.system)
+        def m(n): return NUM_MEANING.get(n, "a rare master vibration")
+        return {"engine": "numerojodi", "engine_version": ENGINE_VERSIONS["numerojodi"], "output": {
+            "system": p.system,
+            "life_path": {"n": pr.life_path, "meaning": m(pr.life_path)},
+            "destiny": {"n": pr.destiny, "compound": pr.compound, "meaning": m(pr.destiny)},
+            "soul_urge": {"n": pr.soul_urge, "meaning": m(pr.soul_urge)},
+            "personality": {"n": pr.personality, "meaning": m(pr.personality)},
+            "birth_day": {"n": pr.birth_day, "meaning": m(pr.birth_day)},
+        }}
+    except Exception as e:
+        raise HTTPException(422, f"numero solo failed: {e}")
