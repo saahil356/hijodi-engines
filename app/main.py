@@ -97,3 +97,53 @@ def prospect_check(inp: AstroMatchIn):
         "doshas_to_review": len(ak.get("doshas", [])),
         "essential_pass": full["south_indian_matching"]["essential_rajju_vedha_ok"],
     }}
+
+# ---------------- MindMatch (Build 2) ----------------
+from mindmatch_engine import (PartnerDimAnswers, score_dimension, koota_signal,
+    tradition_signal, convergence_cell, plan_priorities, validity_flags,
+    ENGINE_VERSION as MM_VERSION)
+
+class MMPartnerDim(BaseModel):
+    positions: dict[str, int]
+    importance: int
+    perceptions: dict[str, int] = {}
+
+class MMScoreIn(BaseModel):
+    partner_a: dict[str, MMPartnerDim]          # dimension -> answers
+    partner_b: dict[str, MMPartnerDim]
+    reverse_keys: list[str] = []
+    tradition: dict[str, list[str]] = {}        # dimension -> ["SUPPORTIVE"|"NEUTRAL"|"CHALLENGING", ...]
+    config: dict | None = None
+
+@app.post("/v1/mindmatch/score")
+def mindmatch_score(inp: MMScoreIn):
+    try:
+        rk = set(inp.reverse_keys)
+        dims = sorted(set(inp.partner_a) & set(inp.partner_b))
+        if not dims:
+            raise HTTPException(422, "no shared dimensions")
+        results, conv_rows, raw_a, raw_b = [], [], [], []
+        for d in dims:
+            a, b = inp.partner_a[d], inp.partner_b[d]
+            raw_a += list(a.positions.values()) + [a.importance]
+            raw_b += list(b.positions.values()) + [b.importance]
+            r = score_dimension(d,
+                PartnerDimAnswers(a.positions, a.importance, a.perceptions),
+                PartnerDimAnswers(b.positions, b.importance, b.perceptions),
+                reverse_keys=rk, cfg=inp.config)
+            row = r.__dict__.copy()
+            trad = tradition_signal(inp.tradition.get(d, []))
+            cell = convergence_cell(trad, r.state)
+            row.update(tradition=trad, convergence=cell)
+            results.append(row)
+            conv_rows.append({"dimension": d, "cell": cell, "severity": r.severity})
+        return {"engine_version": MM_VERSION, "output": {
+            "dimensions": results,
+            "plan_priorities": plan_priorities(conv_rows),
+            "validity": {"partner_a": validity_flags(raw_a),
+                         "partner_b": validity_flags(raw_b)},
+        }}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(422, f"mindmatch computation failed: {e}")
