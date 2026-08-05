@@ -226,6 +226,10 @@ class NarrateIn(BaseModel):
 
 @app.post("/v1/narrate")
 def narrate(p: NarrateIn):
+    # Hard clamps — protect credits no matter who calls or what future code sends
+    p.max_tokens = min(max(p.max_tokens, 256), 9000)
+    if len(p.system) + len(p.user) > 60000:
+        raise HTTPException(413, "narration payload too large")
     body = _json.dumps({"model": "claude-sonnet-4-5", "max_tokens": p.max_tokens,
         "system": p.system, "messages": [{"role": "user", "content": p.user}]}).encode()
     req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body, headers={
