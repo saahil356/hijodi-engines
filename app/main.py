@@ -10,7 +10,7 @@ from typing import Optional
 from astrology_engine import BirthChart, match_report, current_dasha, render_north_svg, render_south_svg
 from numerology_engine import Profile, CompatibilityEngine
 
-ENGINE_VERSIONS = {"astrojodi": "1.0.0", "numerojodi": "1.0.0"}
+ENGINE_VERSIONS = {"astrojodi": "1.0.0", "numerojodi": "1.0.0", "mindmatch": "1.0.0"}
 _DATA = os.path.join(os.path.dirname(__file__), '..', 'engines', 'compatibility-engine-data.json')
 _numero = CompatibilityEngine(_DATA)
 
