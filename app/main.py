@@ -209,3 +209,44 @@ def numero_solo(p: SoloNumIn):
         }}
     except Exception as e:
         raise HTTPException(422, f"numero solo failed: {e}")
+
+# ---------------- Narration relay (no time limits here) ----------------
+import urllib.request, json as _json
+
+class NarrateIn(BaseModel):
+    system: str
+    user: str
+    max_tokens: int = 8000
+    anthropic_key: str
+    supabase_url: str
+    supabase_key: str
+    table: str                      # 'aaina_reports' | 'reports'
+    match: dict                     # for reports: {"purchase_id": "..."}; for aaina: row body extras
+    mode: str = "insert"            # 'insert' | 'patch'
+
+@app.post("/v1/narrate")
+def narrate(p: NarrateIn):
+    body = _json.dumps({"model": "claude-sonnet-4-5", "max_tokens": p.max_tokens,
+        "system": p.system, "messages": [{"role": "user", "content": p.user}]}).encode()
+    req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body, headers={
+        "x-api-key": p.anthropic_key, "anthropic-version": "2023-06-01",
+        "content-type": "application/json"})
+    with urllib.request.urlopen(req, timeout=280) as r:
+        data = _json.loads(r.read().decode())
+    txt = "".join(b.get("text", "") for b in data.get("content", []) if b.get("type") == "text")
+    txt = txt.replace("```json", "").replace("```", "").strip()
+    narrative = _json.loads(txt)
+
+    hdrs = {"apikey": p.supabase_key, "Authorization": f"Bearer {p.supabase_key}",
+            "Content-Type": "application/json", "Prefer": "resolution=merge-duplicates"}
+    if p.mode == "patch":
+        qs = "&".join(f"{k}=eq.{v}" for k, v in p.match.items())
+        u = f"{p.supabase_url}/rest/v1/{p.table}?{qs}"
+        rq = urllib.request.Request(u, data=_json.dumps({"narrative": narrative}).encode(),
+                                    headers=hdrs, method="PATCH")
+    else:
+        row = dict(p.match); row["payload"] = narrative; row["model"] = "claude-sonnet-4-5"
+        u = f"{p.supabase_url}/rest/v1/{p.table}"
+        rq = urllib.request.Request(u, data=_json.dumps(row).encode(), headers=hdrs, method="POST")
+    urllib.request.urlopen(rq, timeout=30)
+    return {"ok": True}
