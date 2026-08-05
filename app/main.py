@@ -231,14 +231,19 @@ def narrate(p: NarrateIn):
     req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body, headers={
         "x-api-key": p.anthropic_key, "anthropic-version": "2023-06-01",
         "content-type": "application/json"})
-    with urllib.request.urlopen(req, timeout=280) as r:
-        data = _json.loads(r.read().decode())
+    try:
+        with urllib.request.urlopen(req, timeout=280) as r:
+            data = _json.loads(r.read().decode())
+    except urllib.error.HTTPError as e:
+        body = e.read().decode()[:400]
+        print(f"NARRATE anthropic {e.code}: {body}", flush=True)
+        raise HTTPException(502, f"anthropic {e.code}: {body[:180]}")
     txt = "".join(b.get("text", "") for b in data.get("content", []) if b.get("type") == "text")
     txt = txt.replace("```json", "").replace("```", "").strip()
     narrative = _json.loads(txt)
 
     hdrs = {"apikey": p.supabase_key, "Authorization": f"Bearer {p.supabase_key}",
-            "Content-Type": "application/json", "Prefer": "resolution=merge-duplicates"}
+            "Content-Type": "application/json", "Prefer": "resolution=merge-duplicates"} if p.mode != "patch" else {"apikey": p.supabase_key, "Authorization": f"Bearer {p.supabase_key}", "Content-Type": "application/json"}
     if p.mode == "patch":
         qs = "&".join(f"{k}=eq.{v}" for k, v in p.match.items())
         u = f"{p.supabase_url}/rest/v1/{p.table}?{qs}"
@@ -248,5 +253,10 @@ def narrate(p: NarrateIn):
         row = dict(p.match); row["payload"] = narrative; row["model"] = "claude-sonnet-4-5"
         u = f"{p.supabase_url}/rest/v1/{p.table}"
         rq = urllib.request.Request(u, data=_json.dumps(row).encode(), headers=hdrs, method="POST")
-    urllib.request.urlopen(rq, timeout=30)
+    try:
+        urllib.request.urlopen(rq, timeout=30)
+    except urllib.error.HTTPError as e:
+        body = e.read().decode()[:400]
+        print(f"NARRATE supabase {e.code}: {body}", flush=True)
+        raise HTTPException(502, f"supabase {e.code}: {body[:180]}")
     return {"ok": True}
