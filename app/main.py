@@ -225,6 +225,19 @@ class NarrateIn(BaseModel):
     mode: str = "insert"            # 'insert' | 'patch'
     target_column: str = "narrative"   # column written in patch mode
 
+
+def _log_err(p, source, detail):
+    """Best-effort: surface narrate failures in the admin Logs tab."""
+    try:
+        hd = {"apikey": p.supabase_key, "Authorization": f"Bearer {p.supabase_key}",
+              "Content-Type": "application/json"}
+        rq = urllib.request.Request(f"{p.supabase_url}/rest/v1/ai_errors",
+            data=_json.dumps({"source": source, "detail": detail[:800]}).encode(),
+            headers=hd, method="POST")
+        urllib.request.urlopen(rq, timeout=10)
+    except Exception:
+        pass
+
 @app.post("/v1/narrate")
 def narrate(p: NarrateIn):
     # Hard clamps — protect credits no matter who calls or what future code sends
@@ -242,10 +255,16 @@ def narrate(p: NarrateIn):
     except urllib.error.HTTPError as e:
         body = e.read().decode()[:400]
         print(f"NARRATE anthropic {e.code}: {body}", flush=True)
+        _log_err(p, f"anthropic:{p.table}", f"{e.code}: {body}")
         raise HTTPException(502, f"anthropic {e.code}: {body[:180]}")
     txt = "".join(b.get("text", "") for b in data.get("content", []) if b.get("type") == "text")
     txt = txt.replace("```json", "").replace("```", "").strip()
-    narrative = _json.loads(txt)
+    try:
+        narrative = _json.loads(txt)
+    except Exception as pe:
+        print(f"NARRATE parse: {pe}", flush=True)
+        _log_err(p, f"parse:{p.table}", f"{pe} | tail: {txt[-300:]}")
+        raise HTTPException(502, "narrative parse failed")
 
     hdrs = {"apikey": p.supabase_key, "Authorization": f"Bearer {p.supabase_key}",
             "Content-Type": "application/json", "Prefer": "resolution=merge-duplicates"} if p.mode != "patch" else {"apikey": p.supabase_key, "Authorization": f"Bearer {p.supabase_key}", "Content-Type": "application/json"}
@@ -263,6 +282,7 @@ def narrate(p: NarrateIn):
     except urllib.error.HTTPError as e:
         body = e.read().decode()[:400]
         print(f"NARRATE supabase {e.code}: {body}", flush=True)
+        _log_err(p, f"supabase:{p.table}", f"{e.code}: {body}")
         raise HTTPException(502, f"supabase {e.code}: {body[:180]}")
     return {"ok": True}
 
