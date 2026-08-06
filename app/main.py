@@ -265,3 +265,4 @@ def narrate(p: NarrateIn):
         print(f"NARRATE supabase {e.code}: {body}", flush=True)
         raise HTTPException(502, f"supabase {e.code}: {body[:180]}")
     return {"ok": True}
+
