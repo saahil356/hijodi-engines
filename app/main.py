@@ -223,6 +223,7 @@ class NarrateIn(BaseModel):
     table: str                      # 'aaina_reports' | 'reports'
     match: dict                     # for reports: {"purchase_id": "..."}; for aaina: row body extras
     mode: str = "insert"            # 'insert' | 'patch'
+    target_column: str = "narrative"   # column written in patch mode
 
 @app.post("/v1/narrate")
 def narrate(p: NarrateIn):
@@ -251,7 +252,7 @@ def narrate(p: NarrateIn):
     if p.mode == "patch":
         qs = "&".join(f"{k}=eq.{v}" for k, v in p.match.items())
         u = f"{p.supabase_url}/rest/v1/{p.table}?{qs}"
-        rq = urllib.request.Request(u, data=_json.dumps({"narrative": narrative}).encode(),
+        rq = urllib.request.Request(u, data=_json.dumps({p.target_column: narrative, "narrated_at": __import__("datetime").datetime.utcnow().isoformat()+"Z"} if p.table=="reveal_narratives" else {p.target_column: narrative}).encode(),
                                     headers=hdrs, method="PATCH")
     else:
         row = dict(p.match); row["payload"] = narrative; row["model"] = "claude-sonnet-4-5"
