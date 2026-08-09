@@ -7,7 +7,8 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from typing import Optional
 
-from astrology_engine import BirthChart, match_report, current_dasha, render_north_svg, render_south_svg, SIGNS, vimshottari_dasha
+from astrology_engine import (BirthChart, match_report, current_dasha, render_north_svg,
+    render_south_svg, SIGNS, vimshottari_dasha, navamsa_chart, antardashas)
 from numerology_engine import Profile, CompatibilityEngine
 
 ENGINE_VERSIONS = {"astrojodi": "1.0.0", "numerojodi": "1.0.0", "mindmatch": "1.0.0"}
@@ -48,12 +49,28 @@ def _chart(b: Birth) -> BirthChart:
 def health():
     return {"ok": True, "versions": ENGINE_VERSIONS}
 
+def _strip_jd(period: dict) -> dict:
+    return {k: v for k, v in period.items() if not k.endswith("_jd")}
+
+def _dasha_bundle(chart: BirthChart, n_periods: int = 9) -> dict:
+    """Full mahadasha timeline + antardashas of the currently-running mahadasha."""
+    cur = current_dasha(chart)
+    timeline = [_strip_jd(p) for p in vimshottari_dasha(chart, n_periods=n_periods)]
+    # Recompute the current mahadasha's raw (with _jd) period so antardashas can be derived
+    raw_timeline = vimshottari_dasha(chart, n_periods=max(n_periods, 12))
+    maha_lord = cur["mahadasha"]["lord"]
+    raw_maha = next((p for p in raw_timeline if p["lord"] == maha_lord
+                     and p["start"] == cur["mahadasha"]["start"]), raw_timeline[0])
+    subs = [_strip_jd(s) for s in
+            antardashas(raw_maha["lord"], raw_maha["start_jd"], raw_maha["years"])]
+    return {"current": cur, "timeline": timeline, "antardashas_current": subs}
+
 @app.post("/v1/astrojodi/match")
 def astro_match(inp: AstroMatchIn):
     try:
         g, b = _chart(inp.groom), _chart(inp.bride)
         rep = match_report(g, b)
-        rep["dashas"] = {"groom": current_dasha(g), "bride": current_dasha(b)}
+        rep["dashas"] = {"groom": _dasha_bundle(g), "bride": _dasha_bundle(b)}
         # EM-001 T15: propagate birth-time confidence so every surface can qualify lagna factors
         rep["birth_time_confidence"] = {"groom": inp.groom.birth_time_confidence,
                                         "bride": inp.bride.birth_time_confidence}
@@ -61,8 +78,12 @@ def astro_match(inp: AstroMatchIn):
             rep["charts"] = {
                 "groom_north": render_north_svg(g.north_indian_chart(), title=g.name),
                 "groom_south": render_south_svg(g.south_indian_chart(), title=g.name),
+                "groom_navamsa": render_south_svg(navamsa_chart(g, style="south"),
+                                                  title=f"{g.name} — Navamsa D9"),
                 "bride_north": render_north_svg(b.north_indian_chart(), title=b.name),
                 "bride_south": render_south_svg(b.south_indian_chart(), title=b.name),
+                "bride_navamsa": render_south_svg(navamsa_chart(b, style="south"),
+                                                  title=f"{b.name} — Navamsa D9"),
             }
         return {"engine": "astrojodi", "engine_version": ENGINE_VERSIONS["astrojodi"],
                 "input_hash": hashlib.sha256(inp.model_dump_json().encode()).hexdigest()[:16],
