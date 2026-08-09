@@ -793,13 +793,85 @@ def dasha_compatibility(groom: BirthChart, bride: BirthChart) -> dict:
 
 
 def match_report(groom: BirthChart, bride: BirthChart) -> dict:
+    ak, pr = ashtakoota(groom, bride), porutham(groom, bride)
     return {
         "groom": groom.summary(),
         "bride": bride.summary(),
-        "north_indian_matching": ashtakoota(groom, bride),
-        "south_indian_matching": porutham(groom, bride),
+        "north_indian_matching": ak,
+        "south_indian_matching": pr,
         "navamsa_analysis": navamsa_compatibility(groom, bride),
         "dasha_analysis": dasha_compatibility(groom, bride),
+        "reconciliation": north_south_reconciliation(ak, pr),
+    }
+
+
+# ---------------------------------------------------------------------------
+# North vs South reconciliation — same underlying chart, two independent
+# classical scoring systems. Ashtakoota (North) and Dasa Porutham (South)
+# share several factors that are the *same traditional concept* computed a
+# different way (Tara~Dina, Nadi~Rajju, Bhakoot~Rasi, Gana~Gana, Vashya~Vashya,
+# Yoni~Yoni, Graha Maitri~Rasyadhipati — the standard textbook correspondence
+# between the two systems). This reads the two already-computed results side
+# by side rather than computing anything new, so it can't disagree with the
+# koota/porutham numbers above — it can only ever restate them differently.
+# ---------------------------------------------------------------------------
+
+# (concept, north koota key, south porutham key)
+_RECONCILIATION_PAIRS = [
+    ("Birth-star wellbeing", "tara", "dina"),
+    ("Temperament nature", "gana", "gana"),
+    ("Mutual amenability", "vashya", "vashya"),
+    ("Instinctive/physical harmony", "yoni", "yoni"),
+    ("Friendship of sign lords", "graha_maitri", "rasyadhipati"),
+    ("Moon-sign placement", "bhakoot", "rasi"),
+    ("Constitution / longevity (essential in both)", "nadi", "rajju"),
+]
+
+
+def _ashtakoota_signal(total: float) -> str:
+    if total >= 25:
+        return "strong"
+    if total >= 18:
+        return "mixed"
+    return "review"
+
+
+def _porutham_signal(pr: dict) -> str:
+    # "review" is reserved for a failed essential (Rajju/Vedha) — tradition's
+    # gravest objection. A passed-essential-but-low-count result is "weak",
+    # not "review": less urgent, still worth naming honestly.
+    if not pr["essential_rajju_vedha_ok"]:
+        return "review"
+    if pr["matched"] >= 8:
+        return "strong"
+    if pr["matched"] >= 6:
+        return "mixed"
+    return "weak"
+
+
+def north_south_reconciliation(ak: dict, pr: dict) -> dict:
+    pairs = []
+    for concept, koota_key, porutham_key in _RECONCILIATION_PAIRS:
+        k = ak["kootas"][koota_key]
+        north_ok = (k["points"] / k["max"]) >= 0.5
+        south_ok = bool(pr["poruthams"][porutham_key])
+        pairs.append({
+            "concept": concept, "north_factor": koota_key, "south_factor": porutham_key,
+            "north_points": k["points"], "north_max": k["max"], "north_ok": north_ok,
+            "south_ok": south_ok, "agree": north_ok == south_ok,
+        })
+    north_only = [k for k in ak["kootas"] if k not in dict((p["north_factor"], 1) for p in pairs)]
+    south_only = [k for k in pr["poruthams"] if k not in dict((p["south_factor"], 1) for p in pairs)]
+    agreements = [p for p in pairs if p["agree"]]
+    disagreements = [p for p in pairs if not p["agree"]]
+    return {
+        "north_signal": _ashtakoota_signal(ak["total"]),
+        "south_signal": _porutham_signal(pr),
+        "pairs": pairs,
+        "agreements": [p["concept"] for p in agreements],
+        "disagreements": [p["concept"] for p in disagreements],
+        "north_only_factors": north_only,
+        "south_only_factors": south_only,
     }
 
 

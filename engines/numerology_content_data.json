@@ -1,0 +1,1284 @@
+{
+  "birthday_profiles": {
+    "1": {
+      "title": "The Leader",
+      "planet": "Sun | Reduces to: 1",
+      "core_nature": "Born leaders with immense willpower, originality, and self-confidence. Natural pioneers who prefer to command rather than follow.",
+      "strengths": "Ambition, courage, innovation, determination, strong sense of self.",
+      "challenges": "Ego, stubbornness, domineering tendencies, impatience with slower people, loneliness at the top.",
+      "career": "Entrepreneurship, politics, management, government, creative direction.",
+      "relationships": "Loyal but needs a partner who respects their independence. Compatible with 1, 2, 3, 5, 9.",
+      "lucky": "Sunday; gold, orange, yellow; ruby.",
+      "note": null
+    },
+    "2": {
+      "title": "The Diplomat",
+      "planet": "Moon | Reduces to: 2",
+      "core_nature": "Gentle, intuitive, and emotionally deep. Moon-ruled, so moods fluctuate like tides. Excellent mediators who sense what others feel.",
+      "strengths": "Empathy, cooperation, artistic imagination, tact, patience.",
+      "challenges": "Over-sensitivity, indecision, dependency, mood swings, avoiding confrontation.",
+      "career": "Counseling, diplomacy, arts, healing professions, hospitality, teaching.",
+      "relationships": "Devoted romantic partners who crave emotional security. Compatible with 1, 2, 5, 7, 8.",
+      "lucky": "Monday; white, cream, sea green; pearl, moonstone.",
+      "note": null
+    },
+    "3": {
+      "title": "The Communicator",
+      "planet": "Jupiter | Reduces to: 3",
+      "core_nature": "Optimistic, wise, and expressive. Jupiter grants expansion, luck, and a philosophical mind. Natural teachers and entertainers.",
+      "strengths": "Creativity, communication, humor, generosity, ambition with ethics.",
+      "challenges": "Scattered energy, exaggeration, pride, taking on too much, superficiality when unfocused.",
+      "career": "Teaching, writing, law, publishing, media, religious/spiritual leadership, banking.",
+      "relationships": "Warm and giving, but needs intellectual stimulation. Compatible with 1, 3, 6, 9.",
+      "lucky": "Thursday; yellow, purple, violet; yellow sapphire, topaz.",
+      "note": null
+    },
+    "4": {
+      "title": "The Builder",
+      "planet": "Rahu (North Node) / Uranus | Reduces to: 4",
+      "core_nature": "Practical, methodical, and unconventional. Life often involves sudden changes and hard-won stability. Rule-makers and rule-breakers at once.",
+      "strengths": "Discipline, reliability, organization, endurance, out-of-the-box thinking.",
+      "challenges": "Rigidity, pessimism, resistance to change, workaholic tendencies, feeling misunderstood.",
+      "career": "Engineering, construction, technology, accounting, research, agriculture.",
+      "relationships": "Slow to trust but deeply loyal once committed. Compatible with 1, 2, 5, 6, 7, 8.",
+      "lucky": "Saturday/Sunday; blue, grey, khaki; hessonite.",
+      "note": null
+    },
+    "5": {
+      "title": "The Free Spirit",
+      "planet": "Mercury | Reduces to: 5",
+      "core_nature": "Quick-minded, adaptable, magnetic. Mercury grants sharp intellect and communication genius. Craves variety, travel, and new experiences.",
+      "strengths": "Versatility, wit, persuasion, business acumen, youthful energy.",
+      "challenges": "Restlessness, impulsiveness, inconsistency, overindulgence, fear of commitment.",
+      "career": "Sales, marketing, journalism, trade, travel industry, stock markets, public relations.",
+      "relationships": "Exciting partners who need freedom within love. Compatible with 1, 2, 5, 6.",
+      "lucky": "Wednesday; green, light grey; emerald.",
+      "note": null
+    },
+    "6": {
+      "title": "The Nurturer",
+      "planet": "Venus | Reduces to: 6",
+      "core_nature": "Charming, loving, and aesthetic. Venus grants beauty, luxury, and magnetism. Family and harmony are central to life purpose.",
+      "strengths": "Responsibility, compassion, artistic taste, healing presence, loyalty.",
+      "challenges": "Over-sacrifice, possessiveness, vanity, meddling, avoidance of ugly truths.",
+      "career": "Interior design, fashion, hospitality, medicine, entertainment, luxury goods, teaching.",
+      "relationships": "Among the most devoted lovers in numerology. Compatible with 3, 4, 5, 6, 9.",
+      "lucky": "Friday; blue, pink, white; diamond, opal.",
+      "note": null
+    },
+    "7": {
+      "title": "The Mystic",
+      "planet": "Ketu (South Node) / Neptune | Reduces to: 7",
+      "core_nature": "Deep, introspective, and spiritually inclined. Life pulls toward inner truth over outer success. Old souls with penetrating minds.",
+      "strengths": "Intuition, analysis, wisdom, research ability, originality of thought.",
+      "challenges": "Isolation, skepticism, secrecy, detachment from practical matters, melancholy.",
+      "career": "Research, science, spirituality, psychology, writing, occult studies, medicine.",
+      "relationships": "Needs a partner who respects solitude and depth. Compatible with 1, 2, 4, 7.",
+      "lucky": "Monday; light green, smoke grey; cat's eye.",
+      "note": null
+    },
+    "8": {
+      "title": "The Powerhouse",
+      "planet": "Saturn | Reduces to: 8",
+      "core_nature": "Ambitious, disciplined, karmic. Saturn tests early, rewards late. Success often comes after 35 with tremendous staying power.",
+      "strengths": "Executive ability, persistence, financial intelligence, justice-orientation, resilience.",
+      "challenges": "Delays and obstacles, workaholism, emotional suppression, materialism, fatalism.",
+      "career": "Finance, real estate, law, mining, heavy industry, politics, judiciary.",
+      "relationships": "Reserved but deeply committed. Compatible with 2, 4, 6, 8 (traditions vary on 8-8).",
+      "lucky": "Saturday; dark blue, black; blue sapphire, amethyst.",
+      "note": null
+    },
+    "9": {
+      "title": "The Humanitarian",
+      "planet": "Mars | Reduces to: 9",
+      "core_nature": "Courageous, passionate, and service-oriented. Mars gives warrior energy channeled toward protecting and uplifting others.",
+      "strengths": "Bravery, generosity, leadership in crisis, idealism, physical vitality.",
+      "challenges": "Temper, impulsiveness, aggression, martyrdom, conflict-prone relationships.",
+      "career": "Military, police, surgery, sports, engineering, social work, emergency services.",
+      "relationships": "Intense and protective lovers. Compatible with 1, 3, 6, 9.",
+      "lucky": "Tuesday; red, crimson; red coral.",
+      "note": null
+    },
+    "10": {
+      "title": "The Confident Pioneer",
+      "planet": "Sun",
+      "core_nature": "Pure 1 energy amplified with self-assurance. Rise-and-fall cycles teach resilience; ultimately destined for recognition.",
+      "strengths": "Charisma, clarity of purpose, honor, creative leadership.",
+      "challenges": "Pride, sudden reversals of fortune, difficulty accepting help.",
+      "career": "Leadership roles, government, brand-building, sports.",
+      "relationships": null,
+      "lucky": null,
+      "note": "Called the \"wheel of fortune\" number \u2014 success comes through self-belief during ups and downs."
+    },
+    "11": {
+      "title": "The Intuitive",
+      "planet": "Moon influence, master vibration",
+      "core_nature": "Spiritual antenna. Highly sensitive, visionary, often psychic. Carries both the illumination of 11 and the softness of 2.",
+      "strengths": "Inspiration, healing presence, idealism, magnetic insight into people.",
+      "challenges": "Nervous tension, anxiety, self-doubt, living below potential when overwhelmed.",
+      "career": "Spiritual teaching, counseling, arts, film, invention, ministry.",
+      "relationships": null,
+      "lucky": null,
+      "note": "Master numbers demand more \u2014 11s feel driven toward a higher purpose or feel restless."
+    },
+    "12": {
+      "title": "The Artist",
+      "planet": "Jupiter with Sun-Moon blend",
+      "core_nature": "Creative charm meets leadership (1) and sensitivity (2). Persuasive, attractive personalities who learn through sacrifice.",
+      "strengths": "Expression, popularity, teaching gifts, balanced ambition.",
+      "challenges": "Being taken advantage of, victim mentality, scattered focus.",
+      "career": "Media, arts, education, advertising, performing.",
+      "relationships": null,
+      "lucky": null,
+      "note": "The \"sacrifice-then-rebirth\" number \u2014 surrendering old patterns unlocks their brilliance."
+    },
+    "13": {
+      "title": "The Transformer",
+      "planet": "Rahu/Uranus with Sun-Jupiter blend",
+      "core_nature": "Misunderstood as unlucky \u2014 actually the number of transformation through work. Genius potential once discipline is embraced.",
+      "strengths": "Determination, practicality with creativity, ability to rebuild from nothing.",
+      "challenges": "Early struggles, rigidity, frustration when shortcuts fail, karmic lessons around laziness.",
+      "career": "Science, technology, construction, management, occult research.",
+      "relationships": null,
+      "lucky": null,
+      "note": "In Tarot, 13 is Death \u2014 meaning regeneration. These natives reinvent themselves powerfully."
+    },
+    "14": {
+      "title": "The Experiencer",
+      "planet": "Mercury with Sun-Rahu blend",
+      "core_nature": "Magnetic, pleasure-loving, and changeable. Life brings constant movement \u2014 physical, financial, emotional.",
+      "strengths": "Adaptability, charm, business talent, communication.",
+      "challenges": "Karmic lessons around excess and freedom \u2014 risk of overindulgence (food, substances, gambling, relationships).",
+      "career": "Media, travel, trading, entertainment, speculation (with caution).",
+      "relationships": null,
+      "lucky": null,
+      "note": "A karmic debt number in some systems \u2014 moderation is the master key."
+    },
+    "15": {
+      "title": "The Magnetic Healer",
+      "planet": "Venus with Sun-Mercury blend",
+      "core_nature": "Charismatic, artistic, and materially fortunate. Strong attraction power \u2014 people and money are drawn to them.",
+      "strengths": "Charm, healing ability, family devotion, artistic and business talent combined.",
+      "challenges": "Stubbornness, sensuality overriding judgment, emotional manipulation if unevolved.",
+      "career": "Arts, music, luxury business, medicine, hospitality, real estate.",
+      "relationships": null,
+      "lucky": null,
+      "note": "One of the luckiest dates for material comfort when ethics stay clean."
+    },
+    "16": {
+      "title": "The Awakener",
+      "planet": "Ketu/Neptune with Sun-Venus blend",
+      "core_nature": "Deep and introspective with sudden life plot-twists. The \"tower\" number \u2014 collapses of false structures lead to spiritual awakening.",
+      "strengths": "Sharp intellect, spiritual depth, independence, research brilliance.",
+      "challenges": "Karmic lessons around ego and relationships; unexpected upheavals; secretiveness.",
+      "career": "Science, spirituality, writing, analysis, detective work, academia.",
+      "relationships": null,
+      "lucky": null,
+      "note": "A karmic debt number \u2014 humility and inner work turn upheaval into enlightenment."
+    },
+    "17": {
+      "title": "The Immortal Achiever",
+      "planet": "Saturn with Sun-Ketu blend",
+      "core_nature": "The \"star\" number \u2014 struggles early, but builds a legacy that outlasts them. Strong-willed, courageous, spiritually protected.",
+      "strengths": "Resilience, leadership, fame potential, business mastery, fearlessness.",
+      "challenges": "Ego battles, conflicts with authority, emotional hardness.",
+      "career": "Business empires, politics, entertainment, defense, publishing.",
+      "relationships": null,
+      "lucky": null,
+      "note": "Traditionally called the number of \"name that lives after death\" \u2014 legacy builders."
+    },
+    "18": {
+      "title": "The Warrior of Light",
+      "planet": "Mars with Sun-Saturn blend",
+      "core_nature": "Powerful but tested. Inner conflict between material desire and spiritual duty. Born to fight for causes larger than themselves.",
+      "strengths": "Courage, strategy, generosity, magnetic authority.",
+      "challenges": "Hidden enemies, family disputes, internal conflict, deception around them; must guard against manipulation.",
+      "career": "Law, military, medicine, activism, crisis management.",
+      "relationships": null,
+      "lucky": null,
+      "note": "Considered spiritually demanding \u2014 service to others dissolves its harsh edges."
+    },
+    "19": {
+      "title": "The Sun Prince",
+      "planet": "Sun (double influence with Mars)",
+      "core_nature": "Radiant, self-made, victorious. Called the \"Prince of Heaven\" \u2014 one of the most fortunate birth numbers.",
+      "strengths": "Independence, honor, success after self-effort, vitality, optimism.",
+      "challenges": "Karmic lesson of self-reliance \u2014 must not misuse power or lean on others; ego.",
+      "career": "Leadership, government, medicine, creative fields, self-owned ventures.",
+      "relationships": null,
+      "lucky": null,
+      "note": "A karmic debt number that resolves into brilliance \u2014 past-life power misuse balanced by earned success."
+    },
+    "20": {
+      "title": "The Peacemaker",
+      "planet": "Moon",
+      "core_nature": "Pure 2 energy \u2014 deeply feeling, spiritual, and patient. The \"awakening\" number: life calls them to a higher purpose mid-life.",
+      "strengths": "Compassion, diplomacy, intuition, teamwork, artistic sense.",
+      "challenges": "Emotional dependency, delay in success, low confidence, health sensitivity.",
+      "career": "Healing, counseling, music, non-profits, spiritual work, partnerships.",
+      "relationships": null,
+      "lucky": null,
+      "note": "Success flows through cooperation, never solo force."
+    },
+    "21": {
+      "title": "The Crowned Communicator",
+      "planet": "Jupiter with Moon-Sun blend",
+      "core_nature": "The \"crown of the magi\" \u2014 victory after effort. Sociable, creative, and ultimately triumphant.",
+      "strengths": "Charm, expression, ambition balanced with warmth, popularity.",
+      "challenges": "Early struggles or delays, scattered social energy, sensitivity to criticism.",
+      "career": "Media, arts, diplomacy, writing, public life.",
+      "relationships": null,
+      "lucky": null,
+      "note": "Guarantees advancement and honors \u2014 but only after tests of patience."
+    },
+    "22": {
+      "title": "The Master Builder",
+      "planet": "Rahu influence, master vibration",
+      "core_nature": "The most powerful number in numerology \u2014 visionary ideals (11) made practical (4). Can build institutions, movements, empires.",
+      "strengths": "Massive practical vision, leadership, discipline, global thinking.",
+      "challenges": "Enormous inner pressure, self-sabotage, nervous strain, or living as an ordinary 4 if potential is avoided.",
+      "career": "Architecture, large-scale business, national leadership, engineering, humanitarian institutions.",
+      "relationships": null,
+      "lucky": null,
+      "note": "\"Master numbers\" either build big or feel the weight of unbuilt dreams."
+    },
+    "23": {
+      "title": "The Royal Star",
+      "planet": "Mercury with Moon-Jupiter blend",
+      "core_nature": "The \"Royal Star of the Lion\" \u2014 one of the luckiest dates. Success comes with help from superiors and unseen protection.",
+      "strengths": "Brilliance, charm, communication mastery, luck in ventures, versatility.",
+      "challenges": "Restlessness, taking luck for granted, commitment issues.",
+      "career": "Business, media, banking, entertainment, foreign trade, technology.",
+      "relationships": null,
+      "lucky": null,
+      "note": "Promises success in almost any endeavor \u2014 protection from those in high positions."
+    },
+    "24": {
+      "title": "The Beloved",
+      "planet": "Venus with Moon-Rahu blend",
+      "core_nature": "Fortunate in love and alliances. Gains through partnerships, family, and people of status. Gentle strength.",
+      "strengths": "Loyalty, nurturing, financial fortune through relationships, artistic gifts.",
+      "challenges": "Over-dependence on others' approval, complacency, romantic entanglements.",
+      "career": "Law, arts, family business, hospitality, public service, banking.",
+      "relationships": null,
+      "lucky": null,
+      "note": "Called fortunate for assistance from others \u2014 love is both their gift and their teacher."
+    },
+    "25": {
+      "title": "The Quiet Sage",
+      "planet": "Ketu/Neptune with Moon-Mercury blend",
+      "core_nature": "Wisdom earned through observation and early trials. Strong intuition wrapped in an analytical mind.",
+      "strengths": "Discernment, spiritual depth, learning from experience, quiet magnetism.",
+      "challenges": "Early setbacks, overthinking, emotional withdrawal, self-criticism.",
+      "career": "Research, science, psychology, spirituality, strategy, writing.",
+      "relationships": null,
+      "lucky": null,
+      "note": "Strength comes through lessons \u2014 the second half of life is far smoother than the first."
+    },
+    "26": {
+      "title": "The Steward",
+      "planet": "Saturn with Moon-Venus blend",
+      "core_nature": "Managerial, compassionate authority. Drawn to build security for self and others, often through partnerships.",
+      "strengths": "Business sense, diplomacy in leadership, philanthropy, patience.",
+      "challenges": "Karmic warnings around partnerships and speculation \u2014 losses through bad associations; must choose allies wisely.",
+      "career": "Management, real estate, finance, institutional leadership, charity work.",
+      "relationships": null,
+      "lucky": null,
+      "note": "Success is steady when built ethically and with trustworthy partners."
+    },
+    "27": {
+      "title": "The Sceptre",
+      "planet": "Mars with Moon-Ketu blend",
+      "core_nature": "The \"sceptre\" \u2014 a promise of authority and command. Compassionate power; the wise general.",
+      "strengths": "Intellect plus courage, leadership through wisdom, creativity, humanitarian instinct.",
+      "challenges": "Inner emotional turbulence, stubborn idealism, carrying others' burdens.",
+      "career": "Government, medicine, defense, spiritual leadership, education, arts.",
+      "relationships": null,
+      "lucky": null,
+      "note": "One of the strongest 9-dates \u2014 productive intellect that harvests rewards."
+    },
+    "28": {
+      "title": "The Loving Leader",
+      "planet": "Sun with Moon-Saturn blend",
+      "core_nature": "Leadership softened by empathy. Ambitious but relationship-oriented \u2014 the approachable boss.",
+      "strengths": "Charisma, cooperation, determination, ability to unite people.",
+      "challenges": "Contradictory pulls (independence vs. attachment), losses through trust misplaced, need to secure finances legally.",
+      "career": "Law, leadership, consulting, public relations, entrepreneurship with partners.",
+      "relationships": null,
+      "lucky": null,
+      "note": "Advised to protect assets and choose associates carefully \u2014 great promise with prudence."
+    },
+    "29": {
+      "title": "The Visionary Heart",
+      "planet": "Moon (double) with Mars influence \u2014 master vibration",
+      "core_nature": "Intensely intuitive and emotional. Carries master number 11 energy \u2014 spiritual sensitivity with dramatic life lessons.",
+      "strengths": "Psychic insight, inspiration, deep empathy, magnetic presence.",
+      "challenges": "Emotional storms, deceptions and trials through others, anxiety, trust issues; must develop inner steadiness.",
+      "career": "Healing arts, spirituality, psychology, creative arts, advocacy.",
+      "relationships": null,
+      "lucky": null,
+      "note": "A number of \"grace through trials\" \u2014 faith and self-mastery convert turbulence into vision."
+    },
+    "30": {
+      "title": "The Pure Creative",
+      "planet": "Jupiter",
+      "core_nature": "Amplified 3 \u2014 thoughtful expression, retrospection, and mental brilliance. The philosopher-artist.",
+      "strengths": "Imagination, wisdom, eloquence, teaching mastery, cheerfulness.",
+      "challenges": "Living in the mind, delayed action, preferring thought over material pursuit.",
+      "career": "Writing, philosophy, education, arts, spiritual teaching, media.",
+      "relationships": null,
+      "lucky": null,
+      "note": "Success flourishes when ideas are put into disciplined practice."
+    },
+    "31": {
+      "title": "The Grounded Creator",
+      "planet": "Rahu/Uranus with Jupiter-Sun blend",
+      "core_nature": "Practical creativity \u2014 the artist with a blueprint. Self-contained, hardworking, sometimes feeling like an outsider.",
+      "strengths": "Organization, persistence, original thinking, dependable talent.",
+      "challenges": "Loneliness, rigidity, unrecognized effort early in life, tendency to isolate.",
+      "career": "Architecture, design, engineering, skilled trades, project management, research.",
+      "relationships": null,
+      "lucky": null,
+      "note": "Late bloomers whose steady work compounds into lasting achievement."
+    }
+  },
+  "lp_destiny_combos": {
+    "1-1": {
+      "title": "Pure leadership",
+      "text": "Pure leadership. Unstoppable drive and originality, but risk of ego isolation and burnout. Learns that true leadership includes listening. Best in: founding ventures, pioneering fields."
+    },
+    "1-2": {
+      "title": "The diplomatic leader",
+      "text": "The diplomatic leader. Journey demands independence; talents are cooperative and sensitive. Early friction (wanting to lead but hating conflict) matures into consensus-building leadership. Best in: management, mediation-heavy leadership."
+    },
+    "1-3": {
+      "title": "The charismatic pioneer",
+      "text": "The charismatic pioneer. Leadership journey powered by creative communication. Natural influencers who lead through inspiration rather than force. Watch scattered focus. Best in: media leadership, creative direction, politics."
+    },
+    "1-4": {
+      "title": "The methodical commander",
+      "text": "The methodical commander. Bold journey with disciplined tools. Builds empires brick by brick; less flashy, more lasting. Risk: rigidity, workaholism. Best in: construction, engineering firms, operations leadership."
+    },
+    "1-5": {
+      "title": "The maverick",
+      "text": "The maverick. Independent journey plus versatile, freedom-loving talents. Serial entrepreneurs, restless innovators. Must finish what they start. Best in: startups, sales leadership, travel/media ventures."
+    },
+    "1-6": {
+      "title": "The protective chief",
+      "text": "The protective chief. Leads like a parent \u2014 responsible, warm, sometimes controlling. Draws loyalty easily. Must avoid martyrdom and micromanaging loved ones. Best in: family business, healthcare administration, community leadership."
+    },
+    "1-7": {
+      "title": "The visionary loner",
+      "text": "The visionary loner. Independent path with analytical, spiritual gifts. Leads through expertise and depth, not charisma. Can seem aloof; thrives with autonomy. Best in: research leadership, strategy, academia, tech architecture."
+    },
+    "1-8": {
+      "title": "The executive powerhouse",
+      "text": "The executive powerhouse. Ambition squared. Enormous material success potential; equally large lessons about power, ethics, and control. Best in: corporate leadership, finance, real estate empires."
+    },
+    "1-9": {
+      "title": "The noble commander",
+      "text": "The noble commander. Self-focused journey with humanitarian talents. Fulfilled only when personal ambition serves a larger cause. Best in: activism leadership, medicine, public service."
+    },
+    "2-1": {
+      "title": "The reluctant leader",
+      "text": "The reluctant leader. Sensitive journey, assertive gifts. Often pushed into leadership they didn't seek \u2014 and excels once confidence catches up to capability. Best in: team leadership, advocacy for others."
+    },
+    "2-2": {
+      "title": "The pure harmonizer",
+      "text": "The pure harmonizer. Deeply intuitive, exceptional at reading rooms and healing rifts. Risk: losing self in others, chronic indecision. Boundaries are the life lesson. Best in: counseling, diplomacy, arts partnerships."
+    },
+    "2-3": {
+      "title": "The social bridge",
+      "text": "The social bridge. Cooperative path with expressive gifts. The friend everyone confides in; turns feeling into words beautifully. Watch emotional oversharing. Best in: writing, therapy, PR, teaching."
+    },
+    "2-4": {
+      "title": "The steady supporter",
+      "text": "The steady supporter. Partnership journey with builder talents. The dependable backbone of every team and family. Underappreciated early; indispensable later. Best in: operations, accounting, healthcare, administration."
+    },
+    "2-5": {
+      "title": "The adaptable mediator",
+      "text": "The adaptable mediator. Craves harmony but gifted with restless versatility. Learns to find peace within change rather than avoiding it. Best in: HR, travel industry, negotiations, communications."
+    },
+    "2-6": {
+      "title": "The devoted heart",
+      "text": "The devoted heart. Double relationship energy. Born caretakers, beloved by all \u2014 but must learn to receive as well as give. Best in: nursing, counseling, hospitality, family enterprises."
+    },
+    "2-7": {
+      "title": "The gentle mystic",
+      "text": "The gentle mystic. Emotional depth meets analytical spirit. Quiet, wise souls with strong intuition bordering on psychic. Needs solitude despite loving connection. Best in: psychology, research, spiritual work, writing."
+    },
+    "2-8": {
+      "title": "The power behind the throne",
+      "text": "The power behind the throne. Sensitive journey with executive talents. Excels at managing people and money for shared goals; the trusted advisor to leaders. Best in: finance, partnership businesses, management."
+    },
+    "2-9": {
+      "title": "The compassionate server",
+      "text": "The compassionate server. Partnership path with humanitarian gifts. Feels others' pain acutely; heals through presence. Must guard against emotional depletion. Best in: social work, medicine, nonprofits, ministry."
+    },
+    "3-1": {
+      "title": "The star performer",
+      "text": "The star performer. Creative journey with leadership tools. Commands attention naturally; born for the spotlight. Ego and discipline are the tests. Best in: entertainment, creative entrepreneurship, public speaking."
+    },
+    "3-2": {
+      "title": "The heartfelt artist",
+      "text": "The heartfelt artist. Expressive path with sensitive gifts. Art that moves people emotionally; collaboration over solo glory. Criticism cuts deep \u2014 resilience is the lesson. Best in: music, poetry, design duos, teaching."
+    },
+    "3-3": {
+      "title": "The pure creative",
+      "text": "The pure creative. Triple expression energy. Effervescent, magnetic, endlessly imaginative \u2014 and endlessly scattered without structure. Best in: arts, comedy, media, content creation."
+    },
+    "3-4": {
+      "title": "The disciplined artist",
+      "text": "The disciplined artist. Creative journey with practical tools \u2014 the rare artist who meets deadlines. Turns talent into a sustainable career others only dream of. Best in: architecture, design, publishing, production."
+    },
+    "3-5": {
+      "title": "The entertainer-adventurer",
+      "text": "The entertainer-adventurer. Expression plus freedom. Storytellers who live the stories first. Magnetic, funny, restless; commitment (to projects and people) is the growth edge. Best in: travel media, performing, journalism, marketing."
+    },
+    "3-6": {
+      "title": "The beauty-maker",
+      "text": "The beauty-maker. Creative path with harmonizing gifts. Creates art, homes, and communities that feel good to be in. Popular and warm. Best in: interior design, fashion, culinary arts, event design."
+    },
+    "3-7": {
+      "title": "The philosophical voice",
+      "text": "The philosophical voice. Expressive journey with deep-thinking tools. Writes and speaks about meaning; humor with depth. The introvert-extrovert paradox lives here. Best in: authorship, philosophy, screenwriting, academia."
+    },
+    "3-8": {
+      "title": "The creative mogul",
+      "text": "The creative mogul. Artistic journey with business talents. Monetizes creativity brilliantly \u2014 the artist who owns the gallery. Best in: media empires, entertainment business, brand building."
+    },
+    "3-9": {
+      "title": "The inspirer",
+      "text": "The inspirer. Expression in service of humanity. Art with a message; words that heal and mobilize. Broad appeal, generous spirit. Best in: inspirational speaking, film, humanitarian arts."
+    },
+    "4-1": {
+      "title": "The self-made builder",
+      "text": "The self-made builder. Structured journey with pioneering tools. Starts from scratch and constructs lasting success through sheer will. Impatience with others' pace is the test. Best in: construction, manufacturing, engineering ventures."
+    },
+    "4-2": {
+      "title": "The patient craftsman",
+      "text": "The patient craftsman. Building path with cooperative gifts. Excels in teams, builds trust as carefully as structures. Slow, steady, deeply reliable. Best in: project management, skilled trades, administration."
+    },
+    "4-3": {
+      "title": "The playful engineer",
+      "text": "The playful engineer. Practical journey with creative tools. Makes structure beautiful and work enjoyable. The architect with artistic flair. Best in: design engineering, UX, creative production."
+    },
+    "4-4": {
+      "title": "The master builder (lowercase)",
+      "text": "The master builder (lowercase). Double structure. Legendary work ethic and reliability; risk of rigidity, pessimism, and all-work-no-life. Flexibility is the lifelong lesson. Best in: infrastructure, systems, accounting, agriculture."
+    },
+    "4-5": {
+      "title": "The tension combo",
+      "text": "The tension combo. Stability journey with freedom talents \u2014 the classic inner conflict. Once integrated: innovators who build flexible systems. Until then: restless frustration. Best in: tech, logistics innovation, process redesign."
+    },
+    "4-6": {
+      "title": "The homestead heart",
+      "text": "The homestead heart. Building path with nurturing gifts. Builds homes, families, institutions that shelter others. Deeply trustworthy. Best in: real estate, family business, healthcare facilities, education."
+    },
+    "4-7": {
+      "title": "The precision mind",
+      "text": "The precision mind. Methodical journey with analytical talents. Researchers, auditors, scientists \u2014 truth through rigor. Can over-isolate. Best in: science, data, quality control, forensics."
+    },
+    "4-8": {
+      "title": "The empire foundation",
+      "text": "The empire foundation. Structure plus executive power. Slow-compounding material success; the person wealthy at 60 who was invisible at 30. Best in: real estate, banking, industrial business."
+    },
+    "4-9": {
+      "title": "The practical idealist",
+      "text": "The practical idealist. Building journey with humanitarian tools. Constructs real solutions to human problems \u2014 wells, schools, systems of care. Best in: NGOs, public infrastructure, social enterprise."
+    },
+    "5-1": {
+      "title": "The trailblazing free spirit",
+      "text": "The trailblazing free spirit. Freedom journey with leadership gifts. Charts new territory and takes others along. Danger: starting everything, finishing little. Best in: entrepreneurship, exploration, innovation labs."
+    },
+    "5-2": {
+      "title": "The people-connector",
+      "text": "The people-connector. Adventurous path with diplomatic talents. Networks effortlessly across cultures and classes. Learns depth over breadth in relationships. Best in: international relations, hospitality, sales."
+    },
+    "5-3": {
+      "title": "The storyteller",
+      "text": "The storyteller. Freedom plus expression \u2014 life as material for art. Magnetic communicators, natural travelers. Discipline transforms talent into legacy. Best in: journalism, travel content, performing, advertising."
+    },
+    "5-4": {
+      "title": "The grounded wanderer",
+      "text": "The grounded wanderer. Freedom journey with structured tools. The traveler who plans meticulously; the rebel with a spreadsheet. Integration makes them unstoppable. Best in: logistics, aviation, event production, field engineering."
+    },
+    "5-5": {
+      "title": "The pure adventurer",
+      "text": "The pure adventurer. Double freedom. Life is experience-collection: travel, people, sensation, change. Thrilling but rootless without conscious anchoring. Moderation is the karmic theme. Best in: travel industry, trading, media, emergency response."
+    },
+    "5-6": {
+      "title": "The free heart",
+      "text": "The free heart. Freedom path with devotion gifts \u2014 wants to roam AND nest. Resolves by creating a home base with wings, or love that travels. Best in: hospitality, food & travel, family ventures abroad."
+    },
+    "5-7": {
+      "title": "The seeking mind",
+      "text": "The seeking mind. Freedom journey with wisdom tools. Travels outward to journey inward; the philosopher-nomad. Collects insight, not just passport stamps. Best in: anthropology, spiritual teaching, documentary work, research abroad."
+    },
+    "5-8": {
+      "title": "The dealmaker",
+      "text": "The dealmaker. Freedom plus business power. Thrives in fast markets, negotiations, and calculated risks. Gambling instinct needs ethical rails. Best in: trading, sales leadership, real estate flipping, venture capital."
+    },
+    "5-9": {
+      "title": "The global soul",
+      "text": "The global soul. Freedom in service of humanity. Crosses borders to help; adaptable compassion. The aid worker, the traveling doctor. Best in: international NGOs, medicine abroad, cultural exchange."
+    },
+    "6-1": {
+      "title": "The family general",
+      "text": "The family general. Nurturing journey with leadership gifts. Head of the household/community; protects fiercely, decides firmly. Control vs. care is the balance. Best in: school leadership, healthcare direction, family enterprise."
+    },
+    "6-2": {
+      "title": "The tender caretaker",
+      "text": "The tender caretaker. Double relational energy with gentle tools. Profoundly giving; the shoulder everyone cries on. Boundaries and self-care are survival skills. Best in: nursing, counseling, childcare, ministry."
+    },
+    "6-3": {
+      "title": "The joyful nurturer",
+      "text": "The joyful nurturer. Responsibility path with creative gifts. Makes care beautiful \u2014 the teacher kids adore, the host of legendary gatherings. Best in: teaching, culinary arts, entertainment for families, design."
+    },
+    "6-4": {
+      "title": "The rock",
+      "text": "The rock. Duty journey with builder talents. The person who shows up, every time, for decades. Creates stability others build lives on. Best in: family business, healthcare admin, community institutions."
+    },
+    "6-5": {
+      "title": "The restless heart",
+      "text": "The restless heart. Duty journey with freedom talents \u2014 torn between home and horizon. Growth: serving in dynamic, varied ways rather than static sacrifice. Best in: traveling healthcare, hospitality, teaching abroad."
+    },
+    "6-6": {
+      "title": "The pure devotee",
+      "text": "The pure devotee. Double love energy. Lives for family, beauty, and harmony; almost telepathic care for loved ones. Perfectionism and martyrdom are shadows. Best in: medicine, arts, luxury service, counseling."
+    },
+    "6-7": {
+      "title": "The wise healer",
+      "text": "The wise healer. Nurturing path with depth tools. Heals minds and souls, not just bodies; counsel with genuine insight. Needs retreat time to recharge. Best in: therapy, alternative medicine, spiritual counseling."
+    },
+    "6-8": {
+      "title": "The provider",
+      "text": "The provider. Responsibility plus material power. Builds wealth explicitly to protect and elevate loved ones. Generous patriarch/matriarch energy. Best in: family wealth building, real estate, healthcare business."
+    },
+    "6-9": {
+      "title": "The universal parent",
+      "text": "The universal parent. Care journey with humanitarian gifts. Family expands to include everyone; the community mother, the beloved doctor. Best in: pediatrics, social services, education leadership, philanthropy."
+    },
+    "7-1": {
+      "title": "The independent scholar",
+      "text": "The independent scholar. Seeking journey with pioneering tools. Breaks new intellectual ground alone; the researcher who founds a field. Best in: original research, tech innovation, authorship."
+    },
+    "7-2": {
+      "title": "The intuitive counselor",
+      "text": "The intuitive counselor. Wisdom path with sensitive gifts. Reads people like books; gentle insight that heals. Balances hermit tendencies with genuine connection. Best in: psychology, spiritual direction, healing arts."
+    },
+    "7-3": {
+      "title": "The eloquent sage",
+      "text": "The eloquent sage. Deep journey with expressive tools. Translates complexity into beauty \u2014 the science communicator, the mystic poet. Best in: writing, teaching, documentary, philosophy media."
+    },
+    "7-4": {
+      "title": "The rigorous mind",
+      "text": "The rigorous mind. Seeking journey with methodical talents. Truth through discipline; the scientist's scientist. Guards against cold detachment. Best in: laboratory science, mathematics, engineering research."
+    },
+    "7-5": {
+      "title": "The wandering philosopher",
+      "text": "The wandering philosopher. Inner journey with freedom tools. Seeks truth across traditions, borders, and disciplines. Synthesizes what others separate. Best in: comparative studies, travel writing, consulting."
+    },
+    "7-6": {
+      "title": "The healing sage",
+      "text": "The healing sage. Wisdom path with nurturing gifts. Knowledge in service of care \u2014 the doctor who truly listens, the wise elder. Best in: medicine, therapy, teaching, mentorship."
+    },
+    "7-7": {
+      "title": "The pure mystic",
+      "text": "The pure mystic. Double depth. Profound inner life, spiritual or scientific genius potential; real risk of isolation and melancholy. Connection is the medicine. Best in: research, monastic/spiritual life, analysis, writing."
+    },
+    "7-8": {
+      "title": "The strategic mind",
+      "text": "The strategic mind. Wisdom journey with power tools. Depth applied to material mastery \u2014 the investor who studies for years, then strikes. Best in: investment strategy, consulting, intelligence, law."
+    },
+    "7-9": {
+      "title": "The enlightened server",
+      "text": "The enlightened server. Seeking path with humanitarian gifts. Wisdom must be shared to feel complete; the teacher of teachers. Best in: higher education, spiritual leadership, global think tanks."
+    },
+    "8-1": {
+      "title": "The born executive",
+      "text": "The born executive. Power journey with leadership tools. Climbs relentlessly and commands naturally. The ethics of power is the central exam. Best in: CEO roles, politics, finance leadership."
+    },
+    "8-2": {
+      "title": "The velvet glove",
+      "text": "The velvet glove. Power path with diplomatic gifts. Wields authority through relationships and subtlety; the negotiator who never raises their voice. Best in: deal-making, HR leadership, coalition politics."
+    },
+    "8-3": {
+      "title": "The charismatic tycoon",
+      "text": "The charismatic tycoon. Power journey with expressive tools. Sells the vision brilliantly; media-savvy authority. Best in: brand empires, entertainment business, public-facing leadership."
+    },
+    "8-4": {
+      "title": "The institution builder",
+      "text": "The institution builder. Power plus structure. Constructs organizations that outlive them; disciplined wealth. Best in: banking, industry, large-scale development."
+    },
+    "8-5": {
+      "title": "The risk-taking magnate",
+      "text": "The risk-taking magnate. Power journey with freedom tools. Fortune through bold, fast moves; markets, deals, expansion. Needs risk management as religion. Best in: trading, ventures, international business."
+    },
+    "8-6": {
+      "title": "The benevolent boss",
+      "text": "The benevolent boss. Power path with nurturing gifts. Builds wealth and takes care of people \u2014 the employer families thank. Best in: family conglomerates, healthcare business, community banking."
+    },
+    "8-7": {
+      "title": "The wise strategist",
+      "text": "The wise strategist. Power journey with analytical depth. Money as chess; authority through expertise. Often private about their success. Best in: investment, law, strategy, quiet wealth."
+    },
+    "8-8": {
+      "title": "The pure powerhouse",
+      "text": "The pure powerhouse. Double Saturn energy. Massive material karma \u2014 spectacular rises, hard tests, ultimate mastery. Ethics determine whether legacy is golden or cautionary. Best in: empire building of any kind."
+    },
+    "8-9": {
+      "title": "The philanthropic titan",
+      "text": "The philanthropic titan. Power path with humanitarian gifts. Wealth finds meaning only in giving; the mogul who endows hospitals. Best in: business + philanthropy, impact investing, public works."
+    },
+    "9-1": {
+      "title": "The crusading leader",
+      "text": "The crusading leader. Humanitarian journey with pioneering tools. Leads movements, fights for causes, inspires courage. Anger management is the shadow work. Best in: activism, reform politics, emergency medicine."
+    },
+    "9-2": {
+      "title": "The gentle healer",
+      "text": "The gentle healer. Compassion path with sensitive gifts. Serves quietly, feels deeply, harmonizes communities. Emotional boundaries are essential. Best in: social work, counseling, hospice care, arts therapy."
+    },
+    "9-3": {
+      "title": "The voice of the people",
+      "text": "The voice of the people. Humanitarian journey with expressive tools. Art and words that awaken conscience. Best in: protest art, journalism, inspirational media."
+    },
+    "9-4": {
+      "title": "The practical humanitarian",
+      "text": "The practical humanitarian. Compassion path with builder talents. Turns ideals into infrastructure \u2014 actual schools, actual wells, actual systems. Best in: NGO operations, public health systems, civil engineering for good."
+    },
+    "9-5": {
+      "title": "The borderless heart",
+      "text": "The borderless heart. Humanitarian journey with freedom tools. Serves across cultures; adaptable, worldly compassion. Best in: international aid, refugee work, global health."
+    },
+    "9-6": {
+      "title": "The community parent",
+      "text": "The community parent. Compassion path with nurturing gifts. Everyone's family; heals through belonging. Best in: community medicine, education, family services."
+    },
+    "9-7": {
+      "title": "The spiritual humanitarian",
+      "text": "The spiritual humanitarian. Service journey with wisdom tools. Compassion informed by deep understanding; the philosopher-healer. Best in: spiritual teaching, psychology, ethical leadership."
+    },
+    "9-8": {
+      "title": "The resourced reformer",
+      "text": "The resourced reformer. Humanitarian path with power tools. Learns that money and influence are compassion's amplifiers. Best in: foundation leadership, social enterprise, policy."
+    },
+    "9-9": {
+      "title": "The pure humanitarian",
+      "text": "The pure humanitarian. Double universal love. Lives for the whole; extraordinary generosity and idealism. Shadow: martyrdom, disappointment in humanity, neglecting the personal. Best in: global service, medicine, ministry, arts for humanity."
+    },
+    "11-1": {
+      "title": "Inspired leadership",
+      "text": "Inspired leadership; the visionary founder."
+    },
+    "11-2": {
+      "title": "Profound psychic-emotional gifts",
+      "text": "Profound psychic-emotional gifts; healer or artist of rare depth; must manage anxiety."
+    },
+    "11-11": {
+      "title": "Profound psychic-emotional gifts",
+      "text": "Profound psychic-emotional gifts; healer or artist of rare depth; must manage anxiety."
+    },
+    "11-3": {
+      "title": "The inspirational communicator",
+      "text": "The inspirational communicator; channels vision into words/art."
+    },
+    "11-4": {
+      "title": "Vision + structure = 11/22 \"master pairing\"",
+      "text": "Vision + structure = 11/22 \"master pairing\"; can institutionalize inspiration (build the temple, not just dream it)."
+    },
+    "11-22": {
+      "title": "Vision + structure = 11/22 \"master pairing\"",
+      "text": "Vision + structure = 11/22 \"master pairing\"; can institutionalize inspiration (build the temple, not just dream it)."
+    },
+    "11-5": {
+      "title": "Restless visionary",
+      "text": "Restless visionary; insight through varied experience."
+    },
+    "11-6": {
+      "title": "The healing luminary",
+      "text": "The healing luminary; illuminates through love and service."
+    },
+    "11-7": {
+      "title": "Mystic squared",
+      "text": "Mystic squared; extraordinary spiritual/intellectual depth, high isolation risk."
+    },
+    "11-8": {
+      "title": "Vision monetized",
+      "text": "Vision monetized; inspired enterprises; tension between spirit and matter is the curriculum."
+    },
+    "11-9": {
+      "title": "The prophet pattern",
+      "text": "The prophet pattern; vision wholly in service of humanity."
+    },
+    "22-1": {
+      "title": "Builds pioneering institutions",
+      "text": "Builds pioneering institutions; the founder of lasting systems."
+    },
+    "22-2": {
+      "title": "Builds with and for people",
+      "text": "Builds with and for people; visionary collaboration (the 22/11 pairing is considered exceptionally potent)."
+    },
+    "22-11": {
+      "title": "Builds with and for people",
+      "text": "Builds with and for people; visionary collaboration (the 22/11 pairing is considered exceptionally potent)."
+    },
+    "22-3": {
+      "title": "Builds beautiful, culture-shaping things",
+      "text": "Builds beautiful, culture-shaping things; creative infrastructure."
+    },
+    "22-4": {
+      "title": "Double structure at master voltage",
+      "text": "Double structure at master voltage; industrial/civic titan; rigidity is the trap."
+    },
+    "22-5": {
+      "title": "Builds flexible, scalable, global systems",
+      "text": "Builds flexible, scalable, global systems; networks and platforms."
+    },
+    "22-6": {
+      "title": "Builds institutions of care \u2014 hospitals, schools, housing",
+      "text": "Builds institutions of care \u2014 hospitals, schools, housing."
+    },
+    "22-7": {
+      "title": "Builds knowledge structures \u2014 universities, research institutes, systems of thought",
+      "text": "Builds knowledge structures \u2014 universities, research institutes, systems of thought."
+    },
+    "22-8": {
+      "title": "Maximum material capacity",
+      "text": "Maximum material capacity; empire-scale achievement with empire-scale karmic responsibility."
+    },
+    "22-9": {
+      "title": "Builds for humanity",
+      "text": "Builds for humanity; the great public-works pattern."
+    }
+  },
+  "pair_text": {
+    "1-1": {
+      "title": "The Power Couple",
+      "score": 7.0,
+      "dynamic": "Two leaders, mutual respect for ambition and independence.",
+      "strengths": "Drive, mutual admiration, no clinginess, shared goals.",
+      "friction": "Ego wars, competition inside the relationship, nobody yields.",
+      "advice": "Separate domains of leadership; celebrate each other's wins loudly."
+    },
+    "1-2": {
+      "title": "The Classic Complement",
+      "score": 8.0,
+      "dynamic": "Leader and diplomat \u2014 one drives, one harmonizes.",
+      "strengths": "Natural role balance; 2 softens 1, 1 emboldens 2.",
+      "friction": "1's bluntness wounds 2; 2's indecision frustrates 1; imbalance of power over time.",
+      "advice": "1 must practice gentleness; 2 must voice needs directly, not hint."
+    },
+    "1-3": {
+      "title": "The Dynamic Duo",
+      "score": 8.0,
+      "dynamic": "Ambition meets charisma; a socially magnetic, energetic pair.",
+      "strengths": "Fun, optimism, shared spotlight-comfort, creative ventures together.",
+      "friction": "3's scattered play vs 1's focused drive; competition for attention.",
+      "advice": "1 shouldn't manage 3; 3 should follow through on shared plans."
+    },
+    "1-4": {
+      "title": "The Stubborn Standoff",
+      "score": 5.0,
+      "dynamic": "Fast pioneer vs methodical builder \u2014 both headstrong.",
+      "strengths": "If aligned, unstoppable execution: vision + structure.",
+      "friction": "Pace clash, both refuse to bend, criticism cycles.",
+      "advice": "Agree on goals first, then split: 1 initiates, 4 systematizes. Never micromanage each other."
+    },
+    "1-5": {
+      "title": "The Adventure Alliance",
+      "score": 8.0,
+      "dynamic": "Two independent spirits who don't cage each other.",
+      "strengths": "Excitement, mutual freedom, growth, great travel/business partners.",
+      "friction": "Two \"me-first\" patterns; commitment can stay shallow; impulsive decisions x2.",
+      "advice": "Schedule true togetherness; make big decisions after 48-hour pauses."
+    },
+    "1-6": {
+      "title": "The Throne and the Hearth",
+      "score": 6.0,
+      "dynamic": "Ambitious individualist with devoted family-builder.",
+      "strengths": "6 creates a warm base for 1's climb; loyalty; complementary priorities.",
+      "friction": "6's care reads as control to 1; 1's independence reads as neglect to 6.",
+      "advice": "1 must show up for family rituals; 6 must release the urge to \"fix\" 1."
+    },
+    "1-7": {
+      "title": "The Respectful Orbit",
+      "score": 7.0,
+      "dynamic": "Doer and thinker who honor each other's space.",
+      "strengths": "Low drama, intellectual respect, independence on both sides.",
+      "friction": "Emotional distance x2 \u2014 the relationship can go quiet; 7 withdraws, 1 charges ahead alone.",
+      "advice": "Create deliberate emotional check-ins; don't mistake parallel lives for partnership."
+    },
+    "1-8": {
+      "title": "The Power Struggle",
+      "score": 5.0,
+      "dynamic": "Two authority energies; boardroom tension at home.",
+      "strengths": "Massive achievement potential, mutual respect for strength, material success.",
+      "friction": "Control battles, work eclipsing love, ego escalation.",
+      "advice": "Define who leads what; make the relationship itself the shared empire."
+    },
+    "1-9": {
+      "title": "The Ambitious Idealists",
+      "score": 7.0,
+      "dynamic": "Self-focused drive meets world-focused compassion.",
+      "strengths": "9 gives 1's ambition meaning; 1 gives 9's ideals traction.",
+      "friction": "1 finds 9 impractical/martyr-like; 9 finds 1 self-centered.",
+      "advice": "Adopt shared causes; 1 leads projects that serve 9's values."
+    },
+    "2-2": {
+      "title": "The Gentle Mirror",
+      "score": 8.0,
+      "dynamic": "Two harmonizers \u2014 deeply attuned, emotionally fluent.",
+      "strengths": "Tenderness, empathy, conflict-avoidant peace, romantic devotion.",
+      "friction": "Nobody decides; unspoken resentments accumulate; oversensitivity loops.",
+      "advice": "Practice direct asks; take turns being the decision-maker."
+    },
+    "2-3": {
+      "title": "The Heart and the Stage",
+      "score": 6.0,
+      "dynamic": "Sensitive partner with social butterfly.",
+      "strengths": "3 brings joy to 2; 2 brings depth to 3; affectionate and lively.",
+      "friction": "3's flirtatious sociability triggers 2's insecurity; 3 feels smothered.",
+      "advice": "3 must offer reassurance proactively; 2 must join the fun, not guard it."
+    },
+    "2-4": {
+      "title": "The Steady Home",
+      "score": 9.0,
+      "dynamic": "Nurturer and builder \u2014 one of numerology's most stable matches.",
+      "strengths": "Loyalty, security, shared devotion to home, patient love.",
+      "friction": "Routine can become rut; 4's emotional flatness vs 2's need for tenderness.",
+      "advice": "4 should verbalize love, not just demonstrate through work; schedule novelty."
+    },
+    "2-5": {
+      "title": "Security vs Freedom",
+      "score": 4.0,
+      "dynamic": "Rooted heart with restless wanderer \u2014 the classic mismatch.",
+      "strengths": "Magnetic attraction of opposites; 5 excites 2, 2 grounds 5.",
+      "friction": "2 needs constancy 5 resists; 5 feels caged; anxiety-avoidance spiral.",
+      "advice": "Only works with explicit agreements: guaranteed rituals of stability + guaranteed zones of freedom."
+    },
+    "2-6": {
+      "title": "The Devoted Union",
+      "score": 9.0,
+      "dynamic": "Two caretakers building a sanctuary together.",
+      "strengths": "Exceptional emotional intimacy, family focus, mutual service, romance.",
+      "friction": "Competitive caretaking; enmeshment; outside world neglected.",
+      "advice": "Care for yourselves as individuals too; let some problems go unfixed."
+    },
+    "2-7": {
+      "title": "The Quiet Depth",
+      "score": 7.0,
+      "dynamic": "Emotional intuitive with intellectual mystic.",
+      "strengths": "Soulful connection, mutual gentleness, rich inner-world sharing.",
+      "friction": "7's withdrawal wounds 2; 2's emotional needs overwhelm 7.",
+      "advice": "7 must explain retreats aren't rejection; 2 must build a life beyond the bond."
+    },
+    "2-8": {
+      "title": "The Executive and the Anchor",
+      "score": 8.0,
+      "dynamic": "Provider and supporter \u2014 traditional power-balance pairing.",
+      "strengths": "2 manages the emotional world, 8 the material one; deep mutual usefulness.",
+      "friction": "8's workaholism starves 2; power imbalance can slide into dominance.",
+      "advice": "8 must trade hours for presence; 2 must claim equal say in decisions."
+    },
+    "2-9": {
+      "title": "The Two Givers",
+      "score": 6.0,
+      "dynamic": "Personal love meets universal love.",
+      "strengths": "Kindness x2, shared service values, gentle romance.",
+      "friction": "9 gives to the world what 2 wants at home; 2 feels deprioritized behind causes.",
+      "advice": "9 must make the partnership a primary cause; 2 must join, not compete with, 9's mission."
+    },
+    "3-3": {
+      "title": "The Endless Party",
+      "score": 7.0,
+      "dynamic": "Two entertainers \u2014 sparkling, social, creatively fertile.",
+      "strengths": "Laughter, chemistry, shared friends, artistic collaboration.",
+      "friction": "No adult in the room: finances, chores, and hard talks get postponed indefinitely.",
+      "advice": "Externalize structure (automate bills, hire help, calendar everything); protect depth beneath the sparkle."
+    },
+    "3-4": {
+      "title": "The Butterfly and the Rock",
+      "score": 4.0,
+      "dynamic": "Spontaneity vs structure \u2014 core rhythm mismatch.",
+      "strengths": "4 stabilizes 3's chaos; 3 brings color to 4's grey; real growth potential.",
+      "friction": "4 feels disrespected by 3's looseness; 3 feels criticized and confined.",
+      "advice": "4 must praise before correcting; 3 must honor commitments as love-language."
+    },
+    "3-5": {
+      "title": "The Fireworks",
+      "score": 8.0,
+      "dynamic": "Expression meets adventure \u2014 high-chemistry, high-color pairing.",
+      "strengths": "Fun, sexual spark, social life, mutual optimism, no boredom ever.",
+      "friction": "Stability nobody's building; jealousy in a double-flirt dynamic; impulsive spending.",
+      "advice": "Assign grown-up duties explicitly; keep third-party boundaries crystal clear."
+    },
+    "3-6": {
+      "title": "The Beautiful Life",
+      "score": 8.0,
+      "dynamic": "Creative spirit with devoted homemaker \u2014 art meets heart.",
+      "strengths": "Warmth, aesthetics, family joy, complementary giving.",
+      "friction": "6's expectations vs 3's lightness; 6 over-gives then resents.",
+      "advice": "3 must notice and reciprocate care; 6 must request, not silently sacrifice."
+    },
+    "3-7": {
+      "title": "The Talker and the Thinker",
+      "score": 5.0,
+      "dynamic": "Social exuberance vs contemplative solitude.",
+      "strengths": "Fascinating conversations; each opens the other's world.",
+      "friction": "3 needs audience, 7 needs silence; 3 feels judged, 7 feels drained.",
+      "advice": "Separate social calendars are healthy here; find your shared 1-on-1 depth ritual."
+    },
+    "3-8": {
+      "title": "The Artist and the Boss",
+      "score": 5.0,
+      "dynamic": "Play energy vs power energy.",
+      "strengths": "8 funds the dream, 3 lightens the empire; glamorous when working.",
+      "friction": "8 dismisses 3 as unserious; 3 finds 8 joyless; respect erosion both ways.",
+      "advice": "8 must value joy as wealth; 3 must show reliability in at least one domain 8 cares about."
+    },
+    "3-9": {
+      "title": "The Inspired Pair",
+      "score": 9.0,
+      "dynamic": "Creativity meets compassion \u2014 one of the most naturally happy matches.",
+      "strengths": "Shared idealism, artistic sympathy, generous spirits, effortless understanding.",
+      "friction": "Both scattered; practical life undermanaged; emotional dramatics x2.",
+      "advice": "One shared calendar and budget; channel the shared fire into a joint creative/service project."
+    },
+    "4-4": {
+      "title": "The Fortress",
+      "score": 8.0,
+      "dynamic": "Two builders \u2014 maximum stability, loyalty, and order.",
+      "strengths": "Trust, savings, shared work ethic, promises always kept.",
+      "friction": "Life becomes all logistics; stubbornness deadlocks; joy gets budgeted out.",
+      "advice": "Schedule spontaneity (yes, ironically); take turns yielding in deadlocks."
+    },
+    "4-5": {
+      "title": "The Classic Clash",
+      "score": 3.0,
+      "dynamic": "Order vs freedom \u2014 numerology's most challenging common pairing.",
+      "strengths": "Powerful attraction; each holds what the other lacks; huge growth if survived.",
+      "friction": "4 experiences 5 as chaos; 5 experiences 4 as prison; contempt risk both ways.",
+      "advice": "Works only with radical acceptance: 4 gets non-negotiable stability zones, 5 gets non-negotiable freedom zones, and neither converts the other."
+    },
+    "4-6": {
+      "title": "The Home Builders",
+      "score": 9.0,
+      "dynamic": "Builder and nurturer \u2014 the marriage-and-mortgage archetype.",
+      "strengths": "Family devotion, reliability, shared long-term vision, practical love.",
+      "friction": "Duty can crowd out romance; both over-responsible, under-playful.",
+      "advice": "Protect couple-time from family/work duty; express affection beyond acts of service."
+    },
+    "4-7": {
+      "title": "The Quiet Constants",
+      "score": 8.0,
+      "dynamic": "Practical mind with philosophical mind \u2014 introvert harmony.",
+      "strengths": "Peace, respect, low drama, deep loyalty, comfortable silences.",
+      "friction": "Emotional expression scarce on both sides; relationship can run on autopilot.",
+      "advice": "Verbalize appreciation weekly; 7 shares inner world, 4 makes space without fixing."
+    },
+    "4-8": {
+      "title": "The Empire Builders",
+      "score": 9.0,
+      "dynamic": "Structure meets executive power \u2014 a formidable material alliance.",
+      "strengths": "Wealth-building, shared discipline, mutual respect, goals achieved.",
+      "friction": "All work, no warmth; status pressure; both suppress feelings until eruption.",
+      "advice": "Define success to include the relationship; keep one shared non-work passion."
+    },
+    "4-9": {
+      "title": "The Realist and the Dreamer",
+      "score": 5.0,
+      "dynamic": "Concrete builder vs universal idealist.",
+      "strengths": "4 grounds 9's visions into reality; 9 lifts 4's horizons.",
+      "friction": "4 finds 9 impractical and preachy; 9 finds 4 small-minded; value mismatch on money.",
+      "advice": "Collaborate on a cause with a budget \u2014 idealism with milestones satisfies both."
+    },
+    "5-5": {
+      "title": "The Wild Ride",
+      "score": 7.0,
+      "dynamic": "Two free spirits \u2014 exhilarating, unpredictable, alive.",
+      "strengths": "Total mutual understanding of freedom-need, adventure, sexual chemistry, zero possessiveness.",
+      "friction": "Nothing anchors; commitments dissolve; excess amplifies (spending, risk, indulgence).",
+      "advice": "Choose 2-3 shared anchors (home base, ritual, project) and defend them; moderate each other, don't enable."
+    },
+    "5-6": {
+      "title": "Wings vs Roots",
+      "score": 5.0,
+      "dynamic": "Wanderer with homemaker.",
+      "strengths": "6 gives 5 a haven; 5 keeps 6's world fresh; strong initial attraction.",
+      "friction": "6's devotion feels like a leash to 5; 5's absences feel like abandonment to 6.",
+      "advice": "Redefine home as launchpad, not cage: travel together, host adventures, let love be spacious."
+    },
+    "5-7": {
+      "title": "The Fellow Seekers",
+      "score": 8.0,
+      "dynamic": "Outer explorer with inner explorer \u2014 mutual space-givers.",
+      "strengths": "No clinginess, fascinating exchanges, freedom respected, growth-oriented.",
+      "friction": "So much space the bond thins; both avoid emotional messiness.",
+      "advice": "Adventure together regularly (5 plans, 7 deepens); name feelings even when awkward."
+    },
+    "5-8": {
+      "title": "The High Rollers",
+      "score": 6.0,
+      "dynamic": "Risk-taker with empire-builder.",
+      "strengths": "Bold ventures, worldly success, dynamic public couple, mutual respect for nerve.",
+      "friction": "8 tries to manage 5; 5 destabilizes 8's plans; money style conflict (8 accumulates, 5 spends).",
+      "advice": "Separate finances with one joint venture; 8 releases control of 5's lifestyle."
+    },
+    "5-9": {
+      "title": "The Global Hearts",
+      "score": 7.0,
+      "dynamic": "Adventurer with humanitarian \u2014 the travel-with-purpose pair.",
+      "strengths": "Broad-mindedness, shared wanderlust, tolerance, cultural richness.",
+      "friction": "9 wants meaning in the movement, 5 wants movement itself; commitment vagueness x2.",
+      "advice": "Fuse the drives: journeys that serve (volunteering abroad, mission-driven ventures)."
+    },
+    "6-6": {
+      "title": "The Double Devotion",
+      "score": 8.0,
+      "dynamic": "Two nurturers \u2014 a deeply loving, home-centered union.",
+      "strengths": "Loyalty, beauty, family excellence, service harmony, romance kept alive.",
+      "friction": "Perfectionism x2; competitive martyrdom (\"I sacrifice more\"); world shrinks to household.",
+      "advice": "Keep individual identities and friendships; forgive imperfection \u2014 in home and each other."
+    },
+    "6-7": {
+      "title": "The Embrace and the Retreat",
+      "score": 5.0,
+      "dynamic": "Togetherness-seeker with solitude-seeker.",
+      "strengths": "6 warms 7's isolation; 7 deepens 6's understanding; gentle mutual fascination.",
+      "friction": "6 pursues, 7 withdraws \u2014 the classic anxious/avoidant loop; 6 feels rejected, 7 feels invaded.",
+      "advice": "Scheduled solitude for 7 (guilt-free) + scheduled devoted presence for 6 (distraction-free)."
+    },
+    "6-8": {
+      "title": "The Provider Partnership",
+      "score": 8.0,
+      "dynamic": "Nurturer with achiever \u2014 traditional complementary powerhouse.",
+      "strengths": "8 builds the estate, 6 builds the home; shared family ambition; mutual pride.",
+      "friction": "8's absence (work) vs 6's presence-need; 6's emotional agenda vs 8's practical one.",
+      "advice": "8 must attend the recitals; 6 must respect the mission; convert wealth into shared family experience."
+    },
+    "6-9": {
+      "title": "The Compassionate Union",
+      "score": 9.0,
+      "dynamic": "Family-love meets universal-love \u2014 profoundly harmonious values.",
+      "strengths": "Kindness, service, idealism, emotional generosity, beautiful home open to the world.",
+      "friction": "Over-giving x2 leads to depletion; 6 focuses on \"ours,\" 9 on \"everyone's.\"",
+      "advice": "Practice receiving; ring-fence family needs before world-saving."
+    },
+    "7-7": {
+      "title": "The Sacred Silence",
+      "score": 7.0,
+      "dynamic": "Two mystics \u2014 a rare, deep, unusual bond.",
+      "strengths": "Profound understanding, respect for solitude, spiritual/intellectual communion, zero small talk.",
+      "friction": "Two hermits = practical life neglected + emotional expression atrophies; isolation \u00e0 deux.",
+      "advice": "One of you handles the world each week (rotate); speak feelings, don't just intuit them."
+    },
+    "7-8": {
+      "title": "Spirit vs Matter",
+      "score": 5.0,
+      "dynamic": "Inner-truth seeker with outer-success builder.",
+      "strengths": "7 gives 8 wisdom and perspective; 8 gives 7 security and grounding.",
+      "friction": "Value collision \u2014 8's materialism looks empty to 7; 7's detachment looks lazy to 8.",
+      "advice": "Respect each other's currency: 8 funds 7's freedom to think; 7 counsels 8's strategy."
+    },
+    "7-9": {
+      "title": "The Wise Hearts",
+      "score": 7.0,
+      "dynamic": "Philosopher with humanitarian \u2014 depth meets breadth.",
+      "strengths": "Meaningful life together, spiritual sympathy, mutual respect, low materialism.",
+      "friction": "9's people-filled mission vs 7's solitude; both can neglect practical/financial base.",
+      "advice": "7 supports the cause from the study, 9 protects 7's retreat; hire an accountant."
+    },
+    "8-8": {
+      "title": "Empire or War",
+      "score": 6.0,
+      "dynamic": "Two powerhouses \u2014 magnificent or mutually destructive, rarely in between.",
+      "strengths": "Extraordinary achievement, status, mutual respect for strength, wealth potential.",
+      "friction": "Control x2, competition, scorekeeping, work devouring everything; ego collisions.",
+      "advice": "One empire, two divisions \u2014 strictly separated domains; ritualize non-negotiable couple time; keep money transparent."
+    },
+    "8-9": {
+      "title": "The Mogul and the Missionary",
+      "score": 5.0,
+      "dynamic": "Accumulation vs distribution \u2014 opposing money philosophies.",
+      "strengths": "Together they model wealth-with-purpose; 9 humanizes 8, 8 resources 9.",
+      "friction": "9 judges 8's materialism; 8 dismisses 9's idealism; charitable spending disputes.",
+      "advice": "Build a giving budget both design; frame philanthropy as legacy (8's language) and service (9's language)."
+    },
+    "9-9": {
+      "title": "The Twin Flames of Service",
+      "score": 8.0,
+      "dynamic": "Two humanitarians \u2014 a union with a mission.",
+      "strengths": "Shared purpose, deep compassion, tolerance, emotional richness, inspiring to others.",
+      "friction": "Martyrdom x2; the world's pain floods the home; personal needs perpetually deferred; dramatic emotions.",
+      "advice": "Serve each other first; permit ordinary selfish joy; separate the relationship from the cause."
+    }
+  },
+  "master_pair_text": {
+    "1-11": {
+      "title": "Visionary + pioneer",
+      "score": 7.0,
+      "text": "Visionary + pioneer: 1 executes 11's visions; 11 must not be steamrolled. High creative output."
+    },
+    "2-11": {
+      "title": "Deep intuitive resonance",
+      "score": 9.0,
+      "text": "Deep intuitive resonance; almost telepathic. Guard against shared oversensitivity."
+    },
+    "3-11": {
+      "title": "Inspiration finds its voice",
+      "score": 7.0,
+      "text": "Inspiration finds its voice; joyful and artistic; scattered nerves need grounding."
+    },
+    "4-11": {
+      "title": "Vision + structure",
+      "score": 8.0,
+      "text": "Vision + structure: 4 builds what 11 sees. Excellent if 4 doesn't dismiss 11's \"impractical\" knowing."
+    },
+    "5-11": {
+      "title": "Stimulating but destabilizing",
+      "score": 5.0,
+      "text": "Stimulating but destabilizing; 11's nervous system needs calm that 5 disrupts."
+    },
+    "6-11": {
+      "title": "Healing home for the sensitive visionary",
+      "score": 8.0,
+      "text": "Healing home for the sensitive visionary; nourishing, gentle, devoted."
+    },
+    "7-11": {
+      "title": "Mystic union",
+      "score": 8.0,
+      "text": "Mystic union; profound spiritual depth; must fight isolation and unworldliness."
+    },
+    "8-11": {
+      "title": "Inspiration vs materialism tension",
+      "score": 6.0,
+      "text": "Inspiration vs materialism tension; works when 8 patrons 11's gifts and 11 counsels 8's power."
+    },
+    "9-11": {
+      "title": "Prophet + humanitarian",
+      "score": 8.0,
+      "text": "Prophet + humanitarian; purpose-drenched union; watch shared burnout."
+    },
+    "11-11": {
+      "title": "Extraordinary psychic connection",
+      "score": 7.0,
+      "text": "Extraordinary psychic connection; equally extraordinary emotional volatility. Needs strong grounding practices."
+    },
+    "11-22": {
+      "title": "The legendary \"vision + master builder\" pairing",
+      "score": 9.0,
+      "text": "The legendary \"vision + master builder\" pairing; can create lasting works of inspired scale."
+    },
+    "11-33": {
+      "title": "Visionary + master healer",
+      "score": 8.0,
+      "text": "Visionary + master healer; spiritually exceptional; practical life needs outsourcing."
+    },
+    "1-22": {
+      "title": "Founder energy squared",
+      "score": 8.0,
+      "text": "Founder energy squared; 1 pioneers, 22 institutionalizes."
+    },
+    "2-22": {
+      "title": "The builder with the diplomat",
+      "score": 8.0,
+      "text": "The builder with the diplomat; 2 manages the human side of 22's projects and heart."
+    },
+    "3-22": {
+      "title": "Creativity lightens the great work",
+      "score": 6.0,
+      "text": "Creativity lightens the great work; 3 must respect the mission's weight."
+    },
+    "4-22": {
+      "title": "Total structural harmony",
+      "score": 9.0,
+      "text": "Total structural harmony; empires and institutions; beware joyless grind."
+    },
+    "5-22": {
+      "title": "Scale needs stability that 5 disrupts",
+      "score": 4.0,
+      "text": "Scale needs stability that 5 disrupts; only works with clearly divided worlds."
+    },
+    "6-22": {
+      "title": "Builds institutions of care with a devoted heart at home",
+      "score": 9.0,
+      "text": "Builds institutions of care with a devoted heart at home; deeply constructive union."
+    },
+    "7-22": {
+      "title": "The builder and the sage",
+      "score": 7.0,
+      "text": "The builder and the sage; 7 gives 22's works wisdom and soul."
+    },
+    "8-22": {
+      "title": "Maximum material capacity of any pairing",
+      "score": 8.0,
+      "text": "Maximum material capacity of any pairing; equally maximum power-struggle risk."
+    },
+    "9-22": {
+      "title": "Builds for humanity",
+      "score": 8.0,
+      "text": "Builds for humanity; hospitals, schools, movements; a legacy couple."
+    },
+    "22-22": {
+      "title": "Two master builders",
+      "score": 7.0,
+      "text": "Two master builders: world-changing or gridlocked; needs one shared blueprint."
+    },
+    "22-33": {
+      "title": "Builder + teacher-healer",
+      "score": 9.0,
+      "text": "Builder + teacher-healer: constructs what heals; among the most impactful unions."
+    },
+    "1-33": {
+      "title": "Healer with leader",
+      "score": 6.0,
+      "text": "Healer with leader; 1 must serve something beyond self for harmony."
+    },
+    "2-33": {
+      "title": "Exceptionally tender",
+      "score": 9.0,
+      "text": "Exceptionally tender; mutual devotion; boundaries against total self-sacrifice needed."
+    },
+    "3-33": {
+      "title": "Joy + healing",
+      "score": 7.0,
+      "text": "Joy + healing; 33 uplifts, 3 delights; practical structure required from outside."
+    },
+    "4-33": {
+      "title": "Grounded compassion",
+      "score": 8.0,
+      "text": "Grounded compassion; 4 protects the healer from depletion."
+    },
+    "5-33": {
+      "title": "The healer needs presence",
+      "score": 4.0,
+      "text": "The healer needs presence; the wanderer resists it; hard mismatch."
+    },
+    "6-33": {
+      "title": "Double love vibration at two octaves",
+      "score": 9.0,
+      "text": "Double love vibration at two octaves; profoundly nurturing; martyrdom is the only enemy."
+    },
+    "7-33": {
+      "title": "Compassion + wisdom",
+      "score": 7.0,
+      "text": "Compassion + wisdom; healing informed by depth; solitude vs service tension."
+    },
+    "8-33": {
+      "title": "Works when wealth serves healing",
+      "score": 6.0,
+      "text": "Works when wealth serves healing; fails when success sidelines service."
+    },
+    "9-33": {
+      "title": "Master healer + universal heart",
+      "score": 9.0,
+      "text": "Master healer + universal heart; a life given to others, together; protect the personal."
+    },
+    "33-33": {
+      "title": "Rare",
+      "score": 8.0,
+      "text": "Rare; saint-energy union; extraordinary love, extreme self-neglect risk."
+    }
+  }
+}

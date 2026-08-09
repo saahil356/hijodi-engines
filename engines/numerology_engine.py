@@ -8,6 +8,7 @@ Pair scores & weights are loaded from compatibility-engine-data.json.
 """
 
 import json
+import os
 import re
 from dataclasses import dataclass, field, asdict
 
@@ -124,6 +125,34 @@ def birth_day_number(day: int) -> int:
     return reduce_number(day)
 
 
+def personal_year(day: int, month: int, target_year: int) -> int:
+    """
+    Personal Year = reduce(reduce(day) + reduce(month) + reduce(target_year)).
+    Masters are NOT preserved here — personal years cycle 1-9 by tradition.
+    """
+    d = reduce_number(day, keep_masters=False)
+    m = reduce_number(month, keep_masters=False)
+    y = reduce_number(digit_sum(target_year), keep_masters=False)
+    return reduce_number(d + m + y, keep_masters=False)
+
+
+def universal_year(target_year: int) -> int:
+    return reduce_number(digit_sum(target_year), keep_masters=False)
+
+
+PERSONAL_YEAR_THEMES = {
+    1: "A beginnings year — new starts, fresh direction, plant the seed now.",
+    2: "A partnership year — patience, cooperation, the slow behind-the-scenes work.",
+    3: "An expression year — visibility, communication, social growth, creative output.",
+    4: "A foundation year — work, systems, health routines, structure beneath the plans of previous years.",
+    5: "A change year — travel, variety, unexpected turns; go with movement rather than against it.",
+    6: "A responsibility year — home, family, and the people who depend on you move to the centre.",
+    7: "A reflection year — introspection, study, stepping back before the next push forward.",
+    8: "A power year — career, money, and visible results; ambition gets real traction.",
+    9: "A completion year — endings, release, closing a chapter before the next 1-year begins.",
+}
+
+
 def destiny_number(full_name: str, system: str = DEFAULT_SYSTEM) -> int:
     """
     Expression/Destiny.
@@ -215,6 +244,36 @@ class Profile:
         return any(n in MASTER_NUMBERS for n in
                    (self.life_path, self.destiny, self.soul_urge, self.personality))
 
+    def letters(self) -> list[dict]:
+        """Letter-by-letter Chaldean/Pythagorean working, for the 'name
+        confirmation' section — one row per letter of the cleaned name."""
+        return [{"letter": ch, "value": v, "vowel": is_v}
+                for ch, v, is_v in name_letter_values(self.name, self.system)]
+
+    def personal_year(self, target_year: int) -> int:
+        return personal_year(self.day, self.month, target_year)
+
+    def dominance(self) -> dict:
+        """Which digits 1-9 repeat across this person's five core numbers,
+        and which don't show up at all. Life Path/Destiny/Personality are
+        fully reduced (masters included) for this count only — dominance is
+        about the underlying digit-theme, not about flagging every master
+        number as its own repeat."""
+        reduced = [
+            reduce_number(self.life_path, keep_masters=False),
+            self.birth_day,
+            reduce_number(self.destiny, keep_masters=False),
+            self.soul_urge,
+            reduce_number(self.personality, keep_masters=False),
+        ]
+        counts: dict[int, int] = {}
+        for n in reduced:
+            counts[n] = counts.get(n, 0) + 1
+        dominant = sorted([n for n, c in counts.items() if c >= 2],
+                          key=lambda n: -counts[n])
+        underrepresented = [n for n in range(1, 10) if n not in counts]
+        return {"counts": counts, "dominant": dominant, "underrepresented": underrepresented}
+
     def numbers(self) -> dict:
         return {
             "life_path": self.life_path,
@@ -230,7 +289,7 @@ class Profile:
 # ---------------------------------------------------------------------------
 
 class CompatibilityEngine:
-    def __init__(self, data_path: str):
+    def __init__(self, data_path: str, content_path: str | None = None):
         with open(data_path) as f:
             self.data = json.load(f)
         self.pairs = self.data["life_path_pairs"]
@@ -241,6 +300,60 @@ class CompatibilityEngine:
         blend = self.data["master_number_rule"]["blend"]
         self.master_w = blend["master_weight"]
         self.reduced_w = blend["reduced_weight"]
+
+        # Interpretive content (birthday profiles, LP x Destiny combos, full
+        # pairing dynamic/strengths/friction/advice text) — a sibling file to
+        # the scoring data, kept separate since it's pure copy, not scoring
+        # logic. Optional: if missing, lookups below just return None so the
+        # engine still runs (older deployments / tests without the content
+        # file don't break).
+        if content_path is None:
+            content_path = os.path.join(os.path.dirname(data_path) or ".",
+                                        "numerology_content_data.json")
+        self.content = None
+        if os.path.exists(content_path):
+            with open(content_path) as f:
+                self.content = json.load(f)
+
+    # -- interpretive content lookups -----------------------------------------
+
+    def birthday_profile(self, day: int) -> dict | None:
+        """Full narrative for a raw birth-day (1-31), e.g. 17 -> 'The Immortal Achiever'."""
+        if not self.content:
+            return None
+        return self.content["birthday_profiles"].get(str(day))
+
+    def lp_destiny_combo(self, life_path: int, destiny: int) -> dict | None:
+        """LP x Destiny combo narrative, e.g. (6, 1) -> 'The family general'.
+        Falls back to the reduced-number combo if no master-specific entry
+        was authored for this exact pairing (source material only covers
+        master combos where the LIFE PATH itself is 11/22)."""
+        if not self.content:
+            return None
+        combos = self.content["lp_destiny_combos"]
+        key = f"{life_path}-{destiny}"
+        if key in combos:
+            return combos[key]
+        rlp = REDUCTION_MAP.get(life_path, life_path)
+        rdest = REDUCTION_MAP.get(destiny, destiny)
+        return combos.get(f"{rlp}-{rdest}")
+
+    def pair_full_text(self, a: int, b: int) -> dict | None:
+        """Reduced-level dynamic/strengths/friction/advice for a pairing."""
+        if not self.content:
+            return None
+        ra, rb = REDUCTION_MAP.get(a, a), REDUCTION_MAP.get(b, b)
+        lo, hi = sorted((ra, rb))
+        return self.content["pair_text"].get(f"{lo}-{hi}")
+
+    def master_pair_note(self, a: int, b: int) -> dict | None:
+        """Master-level short note for a pairing, only when a master number
+        (11/22/33) is actually involved and the source material covers this
+        exact combination."""
+        if not self.content or not (a in MASTER_NUMBERS or b in MASTER_NUMBERS):
+            return None
+        lo, hi = sorted((a, b))
+        return self.content["master_pair_text"].get(f"{lo}-{hi}")
 
     # -- pair lookup ---------------------------------------------------------
 
@@ -283,16 +396,90 @@ class CompatibilityEngine:
                             self.groups["bonus_cap"])
                 break
 
-        return {
+        result = {
             "numbers": (a, b),
             "score": round(score, 2),
             "title": title,
             "high_voltage": masters_involved,
         }
+        reduced_text = self.pair_full_text(a, b)
+        if reduced_text:
+            result["full_text"] = reduced_text
+        if masters_involved:
+            master_note = self.master_pair_note(a, b)
+            if master_note:
+                result["master_note"] = master_note
+            result["reduced_numbers"] = (ra, rb)
+        return result
 
     # -- full report ---------------------------------------------------------
 
-    def compare(self, p1: Profile, p2: Profile) -> dict:
+    def person_chapter(self, p: Profile, target_year: int | None = None) -> dict:
+        """Everything needed for one person's individual chapter: core
+        numbers, name-confirmation letter working, the birth-day narrative,
+        the Life-Path x Destiny combo narrative, and (if a year is given)
+        their personal year for that year."""
+        out = {
+            "name": p.name,
+            **p.numbers(),
+            "compound": p.compound,
+            "has_master": p.has_master,
+            "letters": p.letters(),
+            "birthday_profile": self.birthday_profile(p.birth_day_raw),
+            "lp_destiny_combo": self.lp_destiny_combo(p.life_path, p.destiny),
+            "dominance": p.dominance(),
+        }
+        if target_year is not None:
+            out["personal_year"] = p.personal_year(target_year)
+        return out
+
+    def couple_timeline(self, p1: Profile, p2: Profile, start_year: int, years: int = 5) -> list[dict]:
+        """Personal-year timeline for both people across a run of years, each
+        year's pair of numbers glossed with its one-line theme. Purely a
+        multi-year application of the same personal_year()/PERSONAL_YEAR_THEMES
+        already used for the single 'current year' figure — no new rule."""
+        out = []
+        for offset in range(years):
+            y = start_year + offset
+            py1, py2 = p1.personal_year(y), p2.personal_year(y)
+            out.append({
+                "year": y,
+                p1.name: {"personal_year": py1, "theme": PERSONAL_YEAR_THEMES[py1]},
+                p2.name: {"personal_year": py2, "theme": PERSONAL_YEAR_THEMES[py2]},
+                "universal_year": universal_year(y),
+            })
+        return out
+
+    # Regroups the seven scored layers into named relationship dimensions —
+    # a presentation lens on numbers already computed above, not a new score.
+    # A dimension backed by more than one layer is its weighted average
+    # (weighted by that layer's engine weight) rather than a plain mean, so a
+    # layer the engine treats as more decisive also carries more say in the
+    # dimension it feeds.
+    _BLUEPRINT_MAP = [
+        ("emotional_bond", "Emotional Bond", ["soul_urge_x_soul_urge"]),
+        ("life_direction", "Life Direction", ["life_path_x_life_path", "cross_destiny_x_lifepath_avg"]),
+        ("shared_mission", "Shared Mission", ["destiny_x_destiny"]),
+        ("daily_ease", "Daily Ease & Social Style", ["personality_x_personality"]),
+        ("inner_outer_match", "What You Show vs What I Crave", ["cross_soulurge_x_personality_avg"]),
+        ("everyday_flavour", "Everyday Flavour", ["birthday_x_birthday"]),
+    ]
+
+    def relationship_blueprint(self, layers: dict) -> list[dict]:
+        out = []
+        for key, label, layer_keys in self._BLUEPRINT_MAP:
+            present = [(k, layers[k]["score"]) for k in layer_keys if k in layers]
+            if not present:
+                continue
+            wsum = sum(self.weights.get(k, 1) for k, _ in present)
+            score = sum(s * self.weights.get(k, 1) for k, s in present) / wsum
+            score = round(score, 2)
+            signal = "green" if score >= 7.5 else "amber" if score >= 5.5 else "red"
+            out.append({"key": key, "label": label, "score": score, "signal": signal,
+                        "layers": layer_keys})
+        return out
+
+    def compare(self, p1: Profile, p2: Profile, target_year: int | None = None) -> dict:
         layers = {
             "life_path_x_life_path":
                 self.pair_score(p1.life_path, p2.life_path),
@@ -327,27 +514,46 @@ class CompatibilityEngine:
         superpower = max(direct, key=lambda k: direct[k]["score"])
         growth_edge = min(direct, key=lambda k: direct[k]["score"])
 
-        # report flags
+        # report flags (+ structured detail so callers don't have to
+        # recompute *why* a flag fired to narrate it)
         flags = []
+        flag_details = {}
         if p1.has_master or p2.has_master:
             flags.append("high_voltage")
+            flag_details["high_voltage"] = {
+                p1.name: [k for k, v in p1.numbers().items() if v in MASTER_NUMBERS],
+                p2.name: [k for k, v in p2.numbers().items() if v in MASTER_NUMBERS],
+            }
         lp_score = layers["life_path_x_life_path"]["score"]
         if lp_score <= 4 and final >= 55:
             flags.append("opposites_integration")
-        # echo pattern: same number in >= 3 layers across both people
-        all_nums = list(p1.numbers().values()) + list(p2.numbers().values())
-        if any(all_nums.count(n) >= 3 for n in set(all_nums)):
+        # echo pattern: same number in >= 3 fields across both people
+        fields_1 = {f"{p1.name}:{k}": v for k, v in p1.numbers().items()}
+        fields_2 = {f"{p2.name}:{k}": v for k, v in p2.numbers().items()}
+        all_fields = {**fields_1, **fields_2}
+        echoes = {}
+        for n in set(all_fields.values()):
+            hits = [field for field, v in all_fields.items() if v == n]
+            if len(hits) >= 3:
+                echoes[n] = hits
+        if echoes:
             flags.append("echo_pattern")
+            flag_details["echo_pattern"] = echoes
 
         return {
-            "person_1": {"name": p1.name, **p1.numbers()},
-            "person_2": {"name": p2.name, **p2.numbers()},
+            "person_1": self.person_chapter(p1, target_year),
+            "person_2": self.person_chapter(p2, target_year),
             "layers": layers,
             "final_score": final,
             "band": band,
             "superpower_layer": superpower,
             "growth_edge_layer": growth_edge,
             "flags": flags,
+            "flag_details": flag_details,
+            "universal_year": universal_year(target_year) if target_year is not None else None,
+            "target_year": target_year,
+            "relationship_blueprint": self.relationship_blueprint(layers),
+            "couple_timeline": self.couple_timeline(p1, p2, target_year, years=5) if target_year is not None else None,
         }
 
 
