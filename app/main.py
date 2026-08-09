@@ -266,8 +266,11 @@ def _log_err(p, source, detail):
 
 @app.post("/v1/narrate")
 def narrate(p: NarrateIn):
-    # Hard clamps — protect credits no matter who calls or what future code sends
-    p.max_tokens = min(max(p.max_tokens, 256), 9000)
+    # Hard clamps — protect credits no matter who calls or what future code sends.
+    # Ceiling raised 9000 -> 12000 (9 Aug 2026): the couple-astro narration now asks
+    # for 9800 (chart_readings added two ~100-word sections), and the old clamp was
+    # silently cutting that back to 9000 — truncated replies then failed JSON parsing.
+    p.max_tokens = min(max(p.max_tokens, 256), 12000)
     if len(p.system) + len(p.user) > 60000:
         raise HTTPException(413, "narration payload too large")
     body = _json.dumps({"model": "claude-sonnet-4-5", "max_tokens": p.max_tokens,
@@ -288,9 +291,19 @@ def narrate(p: NarrateIn):
     try:
         narrative = _json.loads(txt)
     except Exception as pe:
-        print(f"NARRATE parse: {pe}", flush=True)
-        _log_err(p, f"parse:{p.table}", f"{pe} | tail: {txt[-300:]}")
-        raise HTTPException(502, "narrative parse failed")
+        # Seen live (9 Aug 2026): "Extra data" — the model returned a complete,
+        # valid JSON object and then kept writing (trailing prose/repetition),
+        # so strict loads() rejected the whole reply and the report lost its
+        # narrative entirely. Salvage: parse the FIRST complete JSON value and
+        # ignore anything after it (also tolerates leading text before the '{').
+        try:
+            start = txt.index("{")
+            narrative, _end = _json.JSONDecoder().raw_decode(txt, start)
+            print(f"NARRATE parse: strict failed ({pe}); salvaged first JSON object", flush=True)
+        except Exception:
+            print(f"NARRATE parse: {pe}", flush=True)
+            _log_err(p, f"parse:{p.table}", f"{pe} | tail: {txt[-300:]}")
+            raise HTTPException(502, "narrative parse failed")
 
     hdrs = {"apikey": p.supabase_key, "Authorization": f"Bearer {p.supabase_key}",
             "Content-Type": "application/json", "Prefer": "resolution=merge-duplicates"} if p.mode != "patch" else {"apikey": p.supabase_key, "Authorization": f"Bearer {p.supabase_key}", "Content-Type": "application/json"}
