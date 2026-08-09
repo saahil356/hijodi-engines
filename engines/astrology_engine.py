@@ -11,6 +11,7 @@ Whole-sign houses (the standard for Vedic rasi charts).
 """
 
 import swisseph as swe
+import datetime
 from dataclasses import dataclass, field
 
 # ---------------------------------------------------------------------------
@@ -39,6 +40,21 @@ PLANETS = {
     "Mercury": swe.MERCURY, "Jupiter": swe.JUPITER, "Venus": swe.VENUS,
     "Saturn": swe.SATURN, "Rahu": swe.MEAN_NODE,  # Ketu derived from Rahu
 }
+
+# --- Panchang tables ---------------------------------------------------------
+
+WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
+            "Saturday", "Sunday"]
+
+TITHI_NAMES = ["Pratipada", "Dwitiya", "Tritiya", "Chaturthi", "Panchami",
+               "Shashthi", "Saptami", "Ashtami", "Navami", "Dashami",
+               "Ekadashi", "Dwadashi", "Trayodashi", "Chaturdashi"]
+
+YOGAS = ["Vishkambha", "Priti", "Ayushman", "Saubhagya", "Shobhana",
+         "Atiganda", "Sukarman", "Dhriti", "Shoola", "Ganda", "Vriddhi",
+         "Dhruva", "Vyaghata", "Harshana", "Vajra", "Siddhi", "Vyatipata",
+         "Variyana", "Parigha", "Shiva", "Siddha", "Sadhya", "Shubha",
+         "Shukla", "Brahma", "Indra", "Vaidhriti"]
 
 # --- Ashtakoota tables ------------------------------------------------------
 
@@ -221,6 +237,36 @@ def nakshatra_of(deg: float) -> tuple[int, int]:
     return idx, pada
 
 
+def panchang(year: int, month: int, day: int, sun_deg: float, moon_deg: float) -> dict:
+    """
+    Basic Panchang for the birth moment: weekday, tithi (lunar day + paksha),
+    and yoga. Derived from Sun/Moon sidereal longitudes already computed for
+    the chart, so no extra ephemeris calls are needed.
+    """
+    weekday_name = WEEKDAYS[datetime.date(year, month, day).weekday()]
+
+    tithi_num = int(((moon_deg - sun_deg) % 360.0) // 12.0) + 1  # 1-30
+    if tithi_num <= 15:
+        paksha = "Shukla"
+        tithi_name = "Purnima" if tithi_num == 15 else TITHI_NAMES[tithi_num - 1]
+    else:
+        idx = tithi_num - 15
+        paksha = "Krishna"
+        tithi_name = "Amavasya" if idx == 15 else TITHI_NAMES[idx - 1]
+
+    yoga_idx = int(((sun_deg + moon_deg) % 360.0) // (360.0 / 27.0))
+    yoga_name = YOGAS[yoga_idx]
+
+    return {
+        "weekday": weekday_name,
+        "paksha": paksha,
+        "tithi_name": tithi_name,
+        "tithi_number": tithi_num,
+        "tithi": f"{paksha} {tithi_name}",
+        "yoga": yoga_name,
+    }
+
+
 # ---------------------------------------------------------------------------
 # Birth chart
 # ---------------------------------------------------------------------------
@@ -240,6 +286,17 @@ class BirthChart:
     planets: dict = field(init=False)   # name -> {deg, sign, house, nakshatra, pada, retro}
 
     def __post_init__(self):
+        # Swiss Ephemeris' sidereal-mode flag is process/thread state, not tied
+        # to this Python module — the module-level swe.set_sid_mode() call at
+        # import time only reliably applies to whichever thread ran the
+        # import. ASGI servers (uvicorn/FastAPI) dispatch sync request
+        # handlers onto a worker-thread pool, so a chart built while handling
+        # a real HTTP request can silently run with swisseph's *default*
+        # ayanamsa (Fagan-Bradley) instead of Lahiri if that worker thread
+        # never itself called set_sid_mode. Re-asserting it here, on every
+        # chart construction, guarantees the correct ayanamsa regardless of
+        # which thread does the work.
+        swe.set_sid_mode(swe.SIDM_LAHIRI)
         self.jd = julian_day_ut(self.year, self.month, self.day,
                                 self.hour, self.minute, self.tz_offset)
         self.asc_deg = ascendant(self.jd, self.lat, self.lon)
@@ -346,6 +403,9 @@ class BirthChart:
             "moon_pada": self.planets["Moon"]["pada"],
             "planets": self.planets,
             "manglik": self.manglik(),
+            "panchang": panchang(self.year, self.month, self.day,
+                                  self.planets["Sun"]["deg"],
+                                  self.planets["Moon"]["deg"]),
         }
 
 
