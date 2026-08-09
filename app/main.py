@@ -94,9 +94,14 @@ def astro_match(inp: AstroMatchIn):
 @app.post("/v1/numerojodi/match")
 def numero_match(inp: NumeroMatchIn):
     try:
+        import datetime
         pa = Profile(name=inp.a.full_name, day=inp.a.day, month=inp.a.month, year=inp.a.year, system=inp.system)
         pb = Profile(name=inp.b.full_name, day=inp.b.day, month=inp.b.month, year=inp.b.year, system=inp.system)
-        res = _numero.compare(pa, pb)
+        current_year = datetime.datetime.now(datetime.timezone.utc).year
+        res = _numero.compare(pa, pb, target_year=current_year)
+        # kept for backward compatibility — person_1/person_2 (above) now carry
+        # the same numbers plus the full narrative content (letters, birthday
+        # profile, LP x Destiny combo, personal year)
         res["profiles"] = {
             "a": {**pa.numbers(), "compound": pa.compound},
             "b": {**pb.numbers(), "compound": pb.compound},
