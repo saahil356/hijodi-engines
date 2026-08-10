@@ -140,6 +140,53 @@ def universal_year(target_year: int) -> int:
     return reduce_number(digit_sum(target_year), keep_masters=False)
 
 
+# --- Part 3 additions (10 Aug 2026) -----------------------------------------
+# Tension archetypes, diagnostic cross-pairs, relationship seasons, couple
+# signature, master-blend visibility, calculation lock, compound profiles.
+# All deterministic lookups over numbers already computed — no change to the
+# seven-layer weighted score anywhere in this block.
+
+PY_WORD = {1: "Beginnings", 2: "Partnership", 3: "Expression", 4: "Building",
+           5: "Change", 6: "Responsibility", 7: "Reflection", 8: "Power",
+           9: "Completion"}
+
+# Personal-year pairings that classically pull in different directions —
+# named so a couple can recognise the season, not fear it.
+SEASON_WATCH = {
+    frozenset({4, 3}): "One builds structure while the other seeks expression — the risk is reading structure as restriction, or sociability as noise.",
+    frozenset({4, 5}): "One consolidates while the other craves change — name it, or routine and restlessness will argue on your behalf.",
+    frozenset({8, 6}): "One pushes outward at work while the other tends the home front — ambition can read as absence, care as pressure.",
+    frozenset({6, 8}): "One pushes outward at work while the other tends the home front — ambition can read as absence, care as pressure.",
+    frozenset({1, 9}): "One is starting a chapter the other is closing — different clocks, not different commitment.",
+    frozenset({7, 3}): "One turns inward while the other turns outward — solitude and social energy need explicit scheduling this year.",
+    frozenset({5, 6}): "One seeks movement while the other seeks roots — the freedom-vs-security theme gets a seasonal spotlight.",
+}
+
+# Number-pair tension archetypes (reduced digits). Frozensets so 5-6 == 6-5;
+# single-element sets mean "both partners carry the same charged digit".
+TENSION_ARCHETYPES = {
+    frozenset({1}): ("Independence vs Independence",
+        "Two self-directed wills. Decisions stall not from apathy but because neither instinctively yields — agree in advance whose call each domain is."),
+    frozenset({8}): ("Control vs Control",
+        "Two executives in one house. Superb for building, demanding for deciding — the watch-point is who holds authority over what."),
+    frozenset({5}): ("Freedom vs Freedom",
+        "Two movers. Exciting and low-friction day to day; the risk is that nobody anchors — roots need to be a deliberate joint project."),
+    frozenset({5, 6}): ("Freedom vs Security",
+        "One is fed by variety and movement, the other by home and continuity. Neither is wrong; unnamed, each reads the other as restriction or abandonment."),
+    frozenset({4, 5}): ("Stability vs Change",
+        "One builds systems, the other rearranges them. Handled consciously it's renewal with a foundation; unconsciously it's constant low-grade friction."),
+    frozenset({3, 8}): ("Expression vs Power",
+        "One leads with words and warmth, the other with results and authority — money style is where this usually surfaces first."),
+    frozenset({1, 8}): ("Independence vs Authority",
+        "Self-direction meets command. Strong mutual respect when lanes are clear; a power struggle when they aren't."),
+    frozenset({1, 2}): ("Autonomy vs Togetherness",
+        "One recharges alone and decides solo; the other bonds through consultation. The fix is simple and unglamorous: say which mode you're in."),
+    frozenset({4, 9}): ("Method vs Meaning",
+        "One asks 'is it done properly?', the other 'does it matter?' — a strong pairing when each credits the other's question."),
+    frozenset({7, 3}): ("Depth vs Lightness",
+        "One goes inward for truth, the other outward for joy. Each can feel the other is missing the point — usually both are half right."),
+}
+
 PERSONAL_YEAR_THEMES = {
     1: "A beginnings year — new starts, fresh direction, plant the seed now.",
     2: "A partnership year — patience, cooperation, the slow behind-the-scenes work.",
@@ -414,6 +461,104 @@ class CompatibilityEngine:
 
     # -- full report ---------------------------------------------------------
 
+    # -- Part 3 (10 Aug 2026) ------------------------------------------------
+
+    NUMBER_ESSENCE = {1: "leadership and self-drive", 2: "partnership and sensitivity",
+        3: "expression and joy", 4: "discipline and building", 5: "freedom and change",
+        6: "care, home and responsibility", 7: "reflection and depth",
+        8: "ambition and material mastery", 9: "compassion and completion",
+        11: "intuition and inspiration", 22: "master-builder energy",
+        33: "master-teacher devotion"}
+
+    # Traditional Chaldean compound themes (Cheiro's attributions; several
+    # higher compounds classically share a lower one's meaning — mapped via
+    # the standard equivalences). Phrased as associations, never predictions.
+    COMPOUND_THEMES = {
+        10: "the wheel — self-contained rise and fall; confidence carries it",
+        11: "hidden trials — strength tested quietly from two sides",
+        12: "the sacrifice — giving that must learn to also receive",
+        13: "regeneration — change and renewal, misread by the fearful as unlucky",
+        14: "movement and risk — luck with people and money that rewards prudence",
+        15: "magnetism — charm and eloquence; gifts that grow with integrity",
+        16: "the tower — sudden reversals; asks for humility and planning",
+        17: "the star — hope, peace, and a name that outlasts setbacks",
+        18: "the struggle — materialism vs spirit; calls for honest dealing",
+        19: "the sun — warmth, success, and promises kept",
+        20: "the awakening — a call to purpose; slow starts, meaningful arcs",
+        21: "the crown — earned success after effort; advancement and honours",
+        22: "the good man deceived — trusting nature; asks for discernment",
+        23: "the royal star — protection and help from those above",
+        24: "assistance and gain — support from partnerships and affection",
+        25: "strength through experience — early lessons, later reward",
+        26: "partnerships under care — generosity that must choose wisely",
+        27: "the sceptre — authority through creative intellect; command earned",
+        28: "contradictions — promising starts that ask to be secured twice",
+        29: "uncertainties — trials through others; steadied by clear boundaries",
+        30: "the thinker — retrospection and mental depth over material race",
+        31: "the recluse — self-containment; genius comfortable in its own company",
+        43: "upheaval — revolution and reversal; steadied by patience",
+        51: "the warrior — sudden advancement; strength under exposure",
+    }
+    _COMPOUND_EQUIV = {32: 23, 33: 24, 34: 25, 35: 26, 36: 27, 37: 23, 38: 29,
+                       39: 30, 40: 31, 41: 32, 42: 24, 44: 26, 45: 27, 46: 37,
+                       47: 29, 48: 30, 49: 31, 50: 32, 52: 43}
+
+    def compound_profile(self, p: Profile) -> dict:
+        c = p.compound
+        base = c
+        seen = set()
+        while base in self._COMPOUND_EQUIV and base not in seen:
+            seen.add(base)
+            base = self._COMPOUND_EQUIV[base]
+        theme = self.COMPOUND_THEMES.get(base)
+        return {"compound": c, "reduces_to": p.destiny,
+                "theme": theme,
+                "note": "Traditional Chaldean associations — treated here as a symbolic relationship theme, not a prediction."}
+
+    def tension_pairs(self, p1: Profile, p2: Profile) -> dict:
+        """Named tension archetypes across the couple's core numbers.
+        Same-slot comparison, slots in priority order; masters reduced for
+        archetype lookup (11→2, 22→4, 33→6). Diagnostic language only."""
+        slots = [("life_path", "Life Path"), ("soul_urge", "Soul Urge"),
+                 ("destiny", "Destiny"), ("personality", "Personality")]
+        found = []
+        for key, label in slots:
+            a = reduce_number(getattr(p1, key), keep_masters=False)
+            b = reduce_number(getattr(p2, key), keep_masters=False)
+            arch = TENSION_ARCHETYPES.get(frozenset({a, b}))
+            if arch:
+                found.append({"slot": key, "slot_label": label,
+                              "numbers": [getattr(p1, key), getattr(p2, key)],
+                              "name": arch[0], "line": arch[1]})
+        return {"pairs": found,
+                "primary": found[0] if found else None,
+                "note": "Tension names are conversation labels, not defects — every archetype above is workable when named."}
+
+    def diagnostic_pairs(self, p1: Profile, p2: Profile) -> list[dict]:
+        """Cross-number checks shown for insight only — ZERO weight in the
+        seven-layer score (the score's layers are untouched)."""
+        specs = [
+            ("soul_urge", "destiny", "Does what I emotionally need fit what you are trying to become?"),
+            ("life_path", "destiny", "Does your life's direction support my expression?"),
+            ("birth_day", "destiny", "Does natural daily style fit the other's life expression?"),
+        ]
+        out = []
+        for ka, kb, q in specs:
+            out.append({
+                "pair": f"{ka}_x_{kb}", "question": q,
+                "a_to_b": self.pair_score(getattr(p1, ka), getattr(p2, kb))["score"],
+                "b_to_a": self.pair_score(getattr(p2, ka), getattr(p1, kb))["score"],
+                "weight": 0})
+        return out
+
+    def couple_signature(self, p1: Profile, p2: Profile) -> dict:
+        """Supplementary 'relationship number': the two Life Paths combined
+        and reduced. Explicitly a side-lens — carries no weight anywhere."""
+        n = reduce_number(p1.life_path + p2.life_path, keep_masters=True)
+        essence = self.NUMBER_ESSENCE.get(n, "a rare master vibration")
+        return {"number": n, "theme": essence,
+                "label": "Supplementary numerology lens — not part of the compatibility score."}
+
     def person_chapter(self, p: Profile, target_year: int | None = None) -> dict:
         """Everything needed for one person's individual chapter: core
         numbers, name-confirmation letter working, the birth-day narrative,
@@ -428,10 +573,33 @@ class CompatibilityEngine:
             "birthday_profile": self.birthday_profile(p.birth_day_raw),
             "lp_destiny_combo": self.lp_destiny_combo(p.life_path, p.destiny),
             "dominance": p.dominance(),
+            # Part 3: calculation integrity, made visible and enforced.
+            "calculation_lock": self._calculation_lock(p),
+            "compound_profile": self.compound_profile(p),
+            "master_blend": ({
+                "slots": [k for k, v in p.numbers().items() if v in MASTER_NUMBERS],
+                "rule": "Master numbers are preserved, not auto-reduced: interpretation blends 60% the master's voltage with 40% its reduced root.",
+            } if p.has_master else None),
         }
         if target_year is not None:
             out["personal_year"] = p.personal_year(target_year)
         return out
+
+    @staticmethod
+    def _calculation_lock(p: Profile) -> dict:
+        """Displayed letters must BE the stored name — enforced, not assumed.
+        The sample-page letter-mismatch incident is the reason this exists:
+        if the letter working ever diverges from the name every number hangs
+        off, the report must fail loudly rather than render confidently."""
+        letters_joined = "".join(l["letter"] for l in p.letters())
+        expected = clean_name(p.name).replace(" ", "")
+        if letters_joined.replace(" ", "").upper() != expected.upper():
+            raise ValueError(
+                f"calculation integrity check failed for '{p.name}': "
+                f"letter working '{letters_joined}' != cleaned name '{expected}'")
+        return {"name_used": p.name, "letter_count": len(p.letters()),
+                "verified": True,
+                "note": "Spelling locked at intake; every number below is computed from exactly these letters."}
 
     def couple_timeline(self, p1: Profile, p2: Profile, start_year: int, years: int = 5) -> list[dict]:
         """Personal-year timeline for both people across a run of years, each
@@ -442,11 +610,18 @@ class CompatibilityEngine:
         for offset in range(years):
             y = start_year + offset
             py1, py2 = p1.personal_year(y), p2.personal_year(y)
+            # Part 3: 'relationship season' — the two personal years named as
+            # one couple-level theme, with a watch-line for classically
+            # divergent pairings. Lookup only; no new computation.
+            season = (PY_WORD[py1] if py1 == py2
+                      else f"{PY_WORD[py1]} + {PY_WORD[py2]}")
             out.append({
                 "year": y,
                 p1.name: {"personal_year": py1, "theme": PERSONAL_YEAR_THEMES[py1]},
                 p2.name: {"personal_year": py2, "theme": PERSONAL_YEAR_THEMES[py2]},
                 "universal_year": universal_year(y),
+                "season": season,
+                "watch": SEASON_WATCH.get(frozenset({py1, py2})),
             })
         return out
 
@@ -554,6 +729,11 @@ class CompatibilityEngine:
             "target_year": target_year,
             "relationship_blueprint": self.relationship_blueprint(layers),
             "couple_timeline": self.couple_timeline(p1, p2, target_year, years=5) if target_year is not None else None,
+            # Part 3 (10 Aug 2026): diagnostic lenses — none of these touch
+            # the weighted score above.
+            "tension_pairs": self.tension_pairs(p1, p2),
+            "diagnostic_pairs": self.diagnostic_pairs(p1, p2),
+            "couple_signature": self.couple_signature(p1, p2),
         }
 
 
