@@ -547,7 +547,22 @@ def porutham(groom: BirthChart, bride: BirthChart) -> dict:
 
     return {"system": "dasa_porutham",
             "poruthams": results, "matched": matched, "max": 10,
-            "essential_rajju_vedha_ok": essential_ok, "verdict": verdict}
+            "essential_rajju_vedha_ok": essential_ok, "verdict": verdict,
+            # Part 1 (10 Aug 2026): three-tier classical weighting. Rajju and
+            # Vedha were already "essential" in this engine; this names the
+            # remaining split the way South Indian practice treats them —
+            # a presentation/classification layer over the same pass/fail
+            # results above, not a change to any computation.
+            "tiers": {
+                "critical": ["rajju", "vedha"],
+                "major": ["rasi", "rasyadhipati", "yoni", "stree_dirgha"],
+                "supporting": ["dina", "gana", "mahendra", "vashya"],
+            },
+            "tier_counts": {
+                "critical": sum(1 for k in ("rajju", "vedha") if results[k]),
+                "major": sum(1 for k in ("rasi", "rasyadhipati", "yoni", "stree_dirgha") if results[k]),
+                "supporting": sum(1 for k in ("dina", "gana", "mahendra", "vashya") if results[k]),
+            }}
 
 
 # ---------------------------------------------------------------------------
@@ -792,6 +807,226 @@ def dasha_compatibility(groom: BirthChart, bride: BirthChart) -> dict:
     }
 
 
+# ---------------------------------------------------------------------------
+# Marriage Analysis — Part 1: the classical, deterministic layer (10 Aug 2026)
+# ---------------------------------------------------------------------------
+# Everything below is textbook Parashari computation — dignity tables,
+# combustion orbs, graha drishti, 7th-house/lord analysis, graded Mangal
+# dosha with cancellation, and a D9 deep-dive. No invented scores: every
+# output is a classical FACT (a dignity, an aspect, a placement), not a
+# model rating. Model-scored layers (synastry weights, foundation scores,
+# timing windows) are deliberately deferred to Part 2 where they will be
+# labelled as HiJODI model analysis, not tradition.
+
+# Exaltation sign (and deep-exaltation degree) per BPHS. Debilitation is the
+# 7th sign from exaltation. Rahu/Ketu are excluded: classical sources
+# disagree on nodal exaltation (Taurus/Scorpio vs Gemini/Sagittarius), so
+# rather than pick a camp we report nodes as dignity-neutral.
+EXALTATION = {  # planet -> (sign_index, deep_degree)
+    "Sun": (0, 10), "Moon": (1, 3), "Mars": (9, 28), "Mercury": (5, 15),
+    "Jupiter": (3, 5), "Venus": (11, 27), "Saturn": (6, 20),
+}
+# Moolatrikona: sign + degree range (BPHS standard ranges).
+MOOLATRIKONA = {  # planet -> (sign_index, deg_from, deg_to)
+    "Sun": (4, 0, 20), "Moon": (1, 3, 30), "Mars": (0, 0, 12),
+    "Mercury": (5, 16, 20), "Jupiter": (8, 0, 10), "Venus": (6, 0, 15),
+    "Saturn": (10, 0, 20),
+}
+OWN_SIGNS = {  # from SIGN_LORDS, inverted
+    "Sun": [4], "Moon": [3], "Mars": [0, 7], "Mercury": [2, 5],
+    "Jupiter": [8, 11], "Venus": [1, 6], "Saturn": [9, 10],
+}
+# Ordinal strength ladder (standard shastra ordering, 7 = strongest).
+DIGNITY_RANK = {"exalted": 7, "moolatrikona": 6, "own": 5, "friend": 4,
+                "neutral": 3, "enemy": 2, "debilitated": 1}
+
+def dignity(planet: str, sign_index: int, deg_in_sign: float) -> dict:
+    """Classical dignity of a planet in a sign (BPHS ladder)."""
+    if planet in ("Rahu", "Ketu"):
+        return {"status": "node", "rank": None,
+                "note": "nodal dignity varies by tradition — not applied"}
+    # Moolatrikona is degree-bounded and, for Moon (Taurus 3-30) and Mercury
+    # (Virgo 16-20), shares a sign with the exaltation — so the MT range must
+    # be tested BEFORE the sign-level exaltation test, giving the classical
+    # degree partition (e.g. Mercury in Virgo: 0-15 exalted, 16-20 MT,
+    # 20-30 own).
+    mt = MOOLATRIKONA.get(planet)
+    if mt and sign_index == mt[0] and mt[1] <= deg_in_sign <= mt[2]:
+        return {"status": "moolatrikona", "rank": 6}
+    ex = EXALTATION.get(planet)
+    if ex and sign_index == ex[0]:
+        # Moon and Mercury's exaltation shares its sign with their MT (and,
+        # for Mercury, with own-sign Virgo): there the exaltation band runs
+        # only up to the deep-exaltation degree (Moon 0-3 Taurus, Mercury
+        # 0-15 Virgo); beyond it the MT/own checks decide. For all other
+        # planets exaltation is the whole sign.
+        shares_sign = mt is not None and mt[0] == ex[0]
+        if not shares_sign or deg_in_sign <= ex[1]:
+            return {"status": "exalted", "rank": 7,
+                    "deep": abs(deg_in_sign - ex[1]) <= 1.0}
+    if ex and sign_index == (ex[0] + 6) % 12:
+        return {"status": "debilitated", "rank": 1,
+                "deep": abs(deg_in_sign - ex[1]) <= 1.0}
+    if sign_index in OWN_SIGNS.get(planet, []):
+        return {"status": "own", "rank": 5}
+    rel = relation(planet, SIGN_LORDS[sign_index])
+    status = {"friend": "friend", "enemy": "enemy"}.get(rel, "neutral")
+    return {"status": status, "rank": DIGNITY_RANK[status]}
+
+# Combustion orbs (degrees of longitudinal separation from the Sun) —
+# standard values; Mercury and Venus use tighter orbs when retrograde.
+COMBUSTION_ORB = {"Moon": 12.0, "Mars": 17.0, "Mercury": 14.0,
+                  "Jupiter": 11.0, "Venus": 10.0, "Saturn": 15.0}
+COMBUSTION_ORB_RETRO = {"Mercury": 12.0, "Venus": 8.0}
+
+def is_combust(chart: BirthChart, planet: str) -> bool:
+    if planet in ("Sun", "Rahu", "Ketu") or planet not in COMBUSTION_ORB:
+        return False
+    p = chart.planets[planet]
+    orb = (COMBUSTION_ORB_RETRO.get(planet) if p["retrograde"] else None) \
+        or COMBUSTION_ORB[planet]
+    diff = abs(chart.planets["Sun"]["deg"] - p["deg"]) % 360.0
+    return min(diff, 360.0 - diff) <= orb
+
+# Graha drishti (whole-sign Parashari aspects): every graha aspects the 7th
+# sign from itself; Mars additionally the 4th and 8th; Jupiter the 5th and
+# 9th; Saturn the 3rd and 10th. Nodal aspects vary by tradition (some give
+# Rahu/Ketu 5/7/9) — excluded here for the same reason as nodal dignity.
+SPECIAL_DRISHTI = {"Mars": (4, 8), "Jupiter": (5, 9), "Saturn": (3, 10)}
+
+def aspects_on_sign(chart: BirthChart, target_sign: int) -> list:
+    """Planets casting graha drishti onto a target sign (whole-sign)."""
+    out = []
+    for pname, p in chart.planets.items():
+        if pname in ("Rahu", "Ketu"):
+            continue
+        offset = (target_sign - p["sign_index"]) % 12 + 1  # counted inclusively
+        if offset == 7 or offset in SPECIAL_DRISHTI.get(pname, ()):
+            out.append(pname)
+    return out
+
+# Natural benefics/malefics (simplified standard: Mercury and Moon counted
+# benefic without the conditional rules — noted, deliberate simplification).
+NATURAL_BENEFICS = {"Jupiter", "Venus", "Mercury", "Moon"}
+NATURAL_MALEFICS = {"Sun", "Mars", "Saturn", "Rahu", "Ketu"}
+
+def seventh_house_analysis(chart: BirthChart, ref: str) -> dict:
+    """The marriage house read from a reference point: 'lagna'|'moon'|'venus'."""
+    ref_sign = {"lagna": chart.asc_sign,
+                "moon": chart.planets["Moon"]["sign_index"],
+                "venus": chart.planets["Venus"]["sign_index"]}[ref]
+    seventh = (ref_sign + 6) % 12
+    occupants = [n for n, p in chart.planets.items() if p["sign_index"] == seventh]
+    aspects = aspects_on_sign(chart, seventh)
+    lord = SIGN_LORDS[seventh]
+    lp = chart.planets[lord]
+    influences = set(occupants) | set(aspects)
+    return {
+        "reference": ref, "seventh_sign": SIGNS[seventh],
+        "occupants": occupants, "aspects_from": aspects,
+        "benefic_influences": sorted(influences & NATURAL_BENEFICS),
+        "malefic_influences": sorted(influences & NATURAL_MALEFICS),
+        "lord": lord,
+        "lord_placement": {
+            "sign": lp["sign"],
+            "house_from_reference": (lp["sign_index"] - ref_sign) % 12 + 1,
+            "dignity": dignity(lord, lp["sign_index"], lp["deg_in_sign"]),
+            "combust": is_combust(chart, lord),
+            "retrograde": lp["retrograde"],
+            "conjunct": [n for n, p in chart.planets.items()
+                         if p["sign_index"] == lp["sign_index"] and n != lord],
+        },
+    }
+
+def person_marriage_facts(chart: BirthChart) -> dict:
+    """All Part-1 classical facts for one person's chart."""
+    return {
+        "dignities": {n: dignity(n, p["sign_index"], p["deg_in_sign"])
+                      for n, p in chart.planets.items()},
+        "combust": [n for n in chart.planets if is_combust(chart, n)],
+        "seventh_house": {ref: seventh_house_analysis(chart, ref)
+                          for ref in ("lagna", "moon", "venus")},
+    }
+
+def manglik_graded(groom: BirthChart, bride: BirthChart) -> dict:
+    """
+    Graded Mangal verdict instead of a binary yes/no.
+    Person level: none / mild / significant / cancelled.
+    Couple level: adds 'balanced' when both carry the dosha.
+    Cancellation implemented conservatively — only the least-disputed rule:
+    Mars in own sign (Aries/Scorpio) or exalted (Capricorn) neutralises the
+    dosha. Wider cancellation lists (by sign-in-house, aspect, etc.) vary too
+    much between classical sources to apply silently.
+    """
+    def grade(ch: BirthChart) -> dict:
+        m = ch.manglik()
+        refs = []
+        if m["manglik_north"]:
+            refs.append("lagna")
+        if m["chandra_manglik"]:
+            refs.append("moon")
+        # Venus reference (same house sets as lagna, counted from Venus) —
+        # part of the roadmap's triple-reference check.
+        venus_house = (ch.planets["Mars"]["sign_index"]
+                       - ch.planets["Venus"]["sign_index"]) % 12 + 1
+        if venus_house in (1, 4, 7, 8, 12):
+            refs.append("venus")
+        mars_dig = dignity("Mars", ch.planets["Mars"]["sign_index"],
+                           ch.planets["Mars"]["deg_in_sign"])
+        cancelled = bool(refs) and mars_dig["status"] in ("own", "exalted", "moolatrikona")
+        # Lagna-reference Mangal is the primary classical form; Moon (chandra)
+        # and Venus references are secondary. "Significant" therefore requires
+        # the lagna reference — secondary-only combinations stay "mild",
+        # matching the product's fear-free, no-overclaiming stance.
+        level = ("none" if not refs else
+                 "cancelled" if cancelled else
+                 "significant" if "lagna" in refs else
+                 "mild")
+        return {"references": refs, "south_convention_second_house": m["manglik_south"] and not m["manglik_north"],
+                "mars_dignity": mars_dig, "level": level,
+                "cancellation_reason": ("Mars in " + mars_dig["status"] + " sign") if cancelled else None}
+    g, b = grade(groom), grade(bride)
+    both_active = (g["level"] in ("mild", "significant")
+                   and b["level"] in ("mild", "significant"))
+    couple = ("balanced" if both_active else
+              "one_sided" if (g["level"] in ("mild", "significant")) != (b["level"] in ("mild", "significant")) else
+              "clear")
+    return {"groom": g, "bride": b, "couple_verdict": couple,
+            "note": ("Both charts carry Mangal dosha — classically read as mutually "
+                     "balancing rather than doubly afflicted.") if both_active else None}
+
+def d9_deep(groom: BirthChart, bride: BirthChart) -> dict:
+    """D9 deep-dive: D9 lagna, D9 7th house/lord, vargottama, D1<->D9 confirmation."""
+    def per(ch: BirthChart) -> dict:
+        nav = navamsa_positions(ch)
+        d9_asc = nav["Asc"]["sign_index"]
+        d9_seventh = (d9_asc + 6) % 12
+        d9_occupants = [n for n, v in nav.items()
+                        if n != "Asc" and v["sign_index"] == d9_seventh]
+        d9_lord = SIGN_LORDS[d9_seventh]
+        # sign-level dignity in D9 (degree-based rungs don't apply in varga)
+        def d9_dignity(pl: str) -> dict:
+            return dignity(pl, nav[pl]["sign_index"], 15.0)
+        vargottama = [n for n, p in ch.planets.items()
+                      if p["sign_index"] == nav[n]["sign_index"]]
+        if ch.asc_sign == d9_asc:
+            vargottama.insert(0, "Asc")
+        d1_seventh_lord = SIGN_LORDS[(ch.asc_sign + 6) % 12]
+        return {
+            "d9_lagna": SIGNS[d9_asc],
+            "d9_seventh_sign": SIGNS[d9_seventh],
+            "d9_seventh_occupants": d9_occupants,
+            "d9_seventh_lord": d9_lord,
+            "d9_seventh_lord_dignity": d9_dignity(d9_lord),
+            "venus_d9": {"sign": nav["Venus"]["sign"], "dignity": d9_dignity("Venus")},
+            "jupiter_d9": {"sign": nav["Jupiter"]["sign"], "dignity": d9_dignity("Jupiter")},
+            "vargottama": vargottama,
+            "d1_seventh_lord_in_d9": {"lord": d1_seventh_lord,
+                                      "d9_sign": nav[d1_seventh_lord]["sign"],
+                                      "dignity": d9_dignity(d1_seventh_lord)},
+        }
+    return {"groom": per(groom), "bride": per(bride)}
+
 def match_report(groom: BirthChart, bride: BirthChart) -> dict:
     ak, pr = ashtakoota(groom, bride), porutham(groom, bride)
     return {
@@ -802,6 +1037,13 @@ def match_report(groom: BirthChart, bride: BirthChart) -> dict:
         "navamsa_analysis": navamsa_compatibility(groom, bride),
         "dasha_analysis": dasha_compatibility(groom, bride),
         "reconciliation": north_south_reconciliation(ak, pr),
+        "marriage_analysis": {
+            "version": "part1-classical",
+            "groom": person_marriage_facts(groom),
+            "bride": person_marriage_facts(bride),
+            "manglik_verdict": manglik_graded(groom, bride),
+            "d9": d9_deep(groom, bride),
+        },
     }
 
 
