@@ -1027,6 +1027,178 @@ def d9_deep(groom: BirthChart, bride: BirthChart) -> dict:
         }
     return {"groom": per(groom), "bride": per(bride)}
 
+# ---------------------------------------------------------------------------
+# Marriage Analysis — Part 2: the HiJODI MODEL layer (10 Aug 2026)
+# ---------------------------------------------------------------------------
+# Unlike Part 1 (pure classical facts), everything below combines classical
+# primitives using weights/buckets HiJODI chose. It must always be presented
+# in-report as "HiJODI model analysis", never as shastra. House rule
+# preserved: NO single overall compatibility score is produced anywhere.
+
+# Sign-distance buckets (counted inclusively, symmetric pairs). Grounded in
+# the same distance lore the Rasi porutham/Bhakoot use (2/12, 6/8 adverse;
+# trines easy; 7th the partnership axis) — but the three-bucket grouping is
+# a HiJODI model choice, not a classical rule.
+def _distance_bucket(sign_a: int, sign_b: int) -> tuple:
+    d1 = (sign_b - sign_a) % 12 + 1
+    d2 = (sign_a - sign_b) % 12 + 1
+    d = min(d1, d2)  # symmetric pair (2/12 -> 2, 6/8 -> 6, etc.)
+    if d1 == 1:
+        return 1, "flowing"
+    if d in (5, 7, 9) or d1 in (5, 7, 9):
+        return d1, "flowing"
+    if d in (3, 4) or d1 in (3, 4, 10, 11):
+        return d1, "working"
+    return d1, "friction"   # 2/12 and 6/8 axes
+
+_SYNASTRY_PAIRS = [
+    ("Moon", "Moon", "Emotional wavelength — how the two inner lives sit together"),
+    ("Venus", "Mars", "Attraction — his Venus to her Mars"),
+    ("Mars", "Venus", "Attraction — his Mars to her Venus"),
+    ("Venus", "Venus", "Affection style — how each expresses love"),
+    ("Mercury", "Mercury", "Communication — how the two minds exchange"),
+    ("Jupiter", "Moon", "His Jupiter to her Moon — guidance, generosity, growth"),
+    ("Moon", "Jupiter", "Her Jupiter to his Moon — guidance, generosity, growth"),
+    ("Saturn", "Moon", "His Saturn to her Moon — structure or heaviness"),
+    ("Moon", "Saturn", "Her Saturn to his Moon — structure or heaviness"),
+    ("Saturn", "Venus", "His Saturn to her Venus — steadiness vs restraint in love"),
+    ("Venus", "Saturn", "Her Saturn to his Venus — steadiness vs restraint in love"),
+]
+
+def synastry_matrix(groom: BirthChart, bride: BirthChart) -> list:
+    """Cross-chart planet pairs, bucketed by classical sign distance."""
+    out = []
+    for pa, pb, theme in _SYNASTRY_PAIRS:
+        sa = groom.planets[pa]["sign_index"]
+        sb = bride.planets[pb]["sign_index"]
+        dist, bucket = _distance_bucket(sa, sb)
+        out.append({"groom_planet": pa, "bride_planet": pb, "theme": theme,
+                    "groom_sign": SIGNS[sa], "bride_sign": SIGNS[sb],
+                    "distance": dist, "read": bucket})
+    return out
+
+def karaka_profile(chart: BirthChart) -> dict:
+    """Venus (affection), Jupiter (commitment/values), Saturn (structure) —
+    per person, from Part-1 primitives. Saturn's read is contextual: strong
+    and connected to the marriage zone = stabilising; afflicted and
+    connected = heavier — the classical question, answered mechanically."""
+    def basic(pl: str) -> dict:
+        p = chart.planets[pl]
+        return {"sign": p["sign"], "house": p["house"],
+                "dignity": dignity(pl, p["sign_index"], p["deg_in_sign"]),
+                "combust": is_combust(chart, pl), "retrograde": p["retrograde"]}
+    seventh = (chart.asc_sign + 6) % 12
+    sat = chart.planets["Saturn"]
+    sat_touches_7th = (sat["sign_index"] == seventh
+                       or "Saturn" in aspects_on_sign(chart, seventh))
+    sat_moon = _distance_bucket(sat["sign_index"], chart.planets["Moon"]["sign_index"])[1]
+    sat_dig = dignity("Saturn", sat["sign_index"], sat["deg_in_sign"])
+    saturn_read = ("stabilising" if sat_touches_7th and (sat_dig["rank"] or 0) >= 4
+                   else "heavy" if sat_touches_7th and (sat_dig["rank"] or 0) <= 2
+                   else "background")
+    return {"venus": basic("Venus"), "jupiter": basic("Jupiter"),
+            "saturn": {**basic("Saturn"), "touches_7th": sat_touches_7th,
+                       "to_own_moon": sat_moon, "model_read": saturn_read}}
+
+def nodes_synastry(groom: BirthChart, bride: BirthChart) -> list:
+    """Rahu/Ketu cross-chart contacts (same sign or opposition only) —
+    flagged as intensity notes, deliberately not scored."""
+    out = []
+    for node in ("Rahu", "Ketu"):
+        for target in ("Moon", "Venus"):
+            for a, b, who in ((groom, bride, "groom"), (bride, groom, "bride")):
+                ns = a.planets[node]["sign_index"]
+                ts = b.planets[target]["sign_index"]
+                d = (ts - ns) % 12 + 1
+                if d in (1, 7):
+                    out.append({
+                        "node": node, "node_chart": who, "target": target,
+                        "contact": "conjunction" if d == 1 else "opposition",
+                        "note": f"{who.capitalize()}'s {node} {'with' if d == 1 else 'opposite'} the other's {target} — "
+                                "classically read as magnetic, karmically charged intensity; energising when named, destabilising when unconscious."})
+    return out
+
+def _maha_lord_at(chart: BirthChart, jd: float) -> str:
+    timeline = vimshottari_dasha(chart, n_periods=12)
+    for d in timeline:
+        if d["start_jd"] <= jd < d["end_jd"]:
+            return d["lord"]
+    return timeline[-1]["lord"]
+
+def dasha_windows(groom: BirthChart, bride: BirthChart) -> list:
+    """Mahadasha-lord relation across three forward windows. Model layer:
+    the window buckets and signal thresholds are HiJODI choices; the lord
+    relation itself is classical graha maitri (nodes read as Saturn/Mars)."""
+    shadow = {"Rahu": "Saturn", "Ketu": "Mars"}
+    now = datetime.datetime.now(datetime.timezone.utc)
+    jd_now = swe.julday(now.year, now.month, now.day, 12.0)
+    out = []
+    for label, offset_years in (("Now — 1 year", 0.5), ("1 — 3 years", 2.0), ("3 — 5 years", 4.0)):
+        jd = jd_now + offset_years * 365.25
+        gl, bl = _maha_lord_at(groom, jd), _maha_lord_at(bride, jd)
+        pts = graha_maitri_points(shadow.get(gl, gl), shadow.get(bl, bl))
+        signal = "supportive" if pts >= 4 else "mixed" if pts >= 2.5 else "demanding"
+        out.append({"window": label, "groom_lord": gl, "bride_lord": bl,
+                    "maitri_points": pts, "signal": signal})
+    return out
+
+def transits_today(chart: BirthChart) -> dict:
+    """Slow movers (Jupiter/Saturn/Rahu) from the natal Moon, today —
+    including the standard sade-sati check (Saturn 12th/1st/2nd from Moon)."""
+    swe.set_sid_mode(swe.SIDM_LAHIRI)
+    now = datetime.datetime.now(datetime.timezone.utc)
+    jd = swe.julday(now.year, now.month, now.day, 12.0)
+    moon_sign = chart.planets["Moon"]["sign_index"]
+    out = {}
+    for pl, pid in (("Jupiter", swe.JUPITER), ("Saturn", swe.SATURN), ("Rahu", swe.MEAN_NODE)):
+        pos, _ = swe.calc_ut(jd, pid, FLAGS)
+        s = sign_of(pos[0] % 360.0)
+        out[pl.lower() + "_from_moon"] = (s - moon_sign) % 12 + 1
+    h = out["saturn_from_moon"]
+    out["sade_sati"] = ({12: "first phase", 1: "peak phase", 2: "closing phase"}.get(h)
+                        if h in (12, 1, 2) else None)
+    return out
+
+_MATRIX_DIMS = [
+    # (dimension, [synastry pair indexes], extra evidence fn)
+    ("Emotional bond", [0], lambda ak, pr: [("Nadi clear", ak["kootas"]["nadi"]["points"] > 0)]),
+    ("Attraction & romance", [1, 2, 3], lambda ak, pr: [("Yoni favourable", ak["kootas"]["yoni"]["points"] >= 2)]),
+    ("Communication", [4], lambda ak, pr: [("Gana compatible", ak["kootas"]["gana"]["points"] >= 3)]),
+    ("Growth & commitment", [5, 6], lambda ak, pr: [("Sign-lord friendship", ak["kootas"]["graha_maitri"]["points"] >= 4)]),
+    ("Stability & structure", [7, 8, 9, 10], lambda ak, pr: [("Rajju clear", pr["poruthams"]["rajju"])]),
+]
+
+def relationship_matrix(syn: list, ak: dict, pr: dict) -> list:
+    """The final per-dimension read — visible evidence, three-colour signal,
+    and deliberately NO overall number (house rule)."""
+    out = []
+    for dim, idxs, extra_fn in _MATRIX_DIMS:
+        reads = [syn[i]["read"] for i in idxs]
+        extras = extra_fn(ak, pr)
+        score = (sum({"flowing": 2, "working": 1, "friction": 0}[r] for r in reads)
+                 + sum(2 if ok else 0 for _, ok in extras))
+        max_score = 2 * len(reads) + 2 * len(extras)
+        frac = score / max_score if max_score else 0
+        signal = "green" if frac >= 0.65 else "amber" if frac >= 0.35 else "red"
+        out.append({"dimension": dim, "signal": signal,
+                    "synastry_evidence": [
+                        {"pair": f"{syn[i]['groom_planet']}×{syn[i]['bride_planet']}",
+                         "read": syn[i]["read"]} for i in idxs],
+                    "classical_evidence": [{"check": n, "ok": ok} for n, ok in extras]})
+    return out
+
+def model_analysis(groom: BirthChart, bride: BirthChart, ak: dict, pr: dict) -> dict:
+    syn = synastry_matrix(groom, bride)
+    return {
+        "label": "HiJODI model analysis — classical primitives, HiJODI weighting; not shastra, never a verdict",
+        "synastry": syn,
+        "karakas": {"groom": karaka_profile(groom), "bride": karaka_profile(bride)},
+        "nodes": nodes_synastry(groom, bride),
+        "dasha_windows": dasha_windows(groom, bride),
+        "transits": {"groom": transits_today(groom), "bride": transits_today(bride)},
+        "matrix": relationship_matrix(syn, ak, pr),
+    }
+
 def match_report(groom: BirthChart, bride: BirthChart) -> dict:
     ak, pr = ashtakoota(groom, bride), porutham(groom, bride)
     return {
@@ -1038,11 +1210,14 @@ def match_report(groom: BirthChart, bride: BirthChart) -> dict:
         "dasha_analysis": dasha_compatibility(groom, bride),
         "reconciliation": north_south_reconciliation(ak, pr),
         "marriage_analysis": {
-            "version": "part1-classical",
+            "version": "part2-classical+model",
             "groom": person_marriage_facts(groom),
             "bride": person_marriage_facts(bride),
             "manglik_verdict": manglik_graded(groom, bride),
             "d9": d9_deep(groom, bride),
+            # Part 2 — rides inside marriage_analysis so the worker's existing
+            # wholesale pass-through carries it with no worker change.
+            "model": model_analysis(groom, bride, ak, pr),
         },
     }
 
